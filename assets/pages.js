@@ -682,8 +682,8 @@ sec({h:'Bis dahin',b:'<p>Wenn ihr vorher mehr von uns lesen möchtet, schaut in 
 function LNK(t,h){return '<a class="lnk" href="'+h+'">'+t+' →</a>'}
 /* ---------- Start ---------- */
 WP('index',function(d){
-  T(d,'.hero h1','Wenn Zusammenarbeit','Teams und Führungskräfte, die schneller entscheiden und gemeinsam liefern');
-  T(d,'.hero .lead','Wir begleiten','EQ Collective aus Rosenheim begleitet Geschäftsführungen und Teams im Mittelstand mit Training und Organisationsentwicklung. Weniger Rückfragen, klare Rollen, Veränderungen, die im Alltag halten.');
+  var h1=d.querySelector('.hero h1');if(h1){h1.textContent='Training und Organisationsentwicklung aus Rosenheim, für Süddeutschland, Tirol und das Salzburger Land';h1.style.fontSize='clamp(1.8rem,3vw,2.5rem)'}
+  var ld=d.querySelector('.hero .lead');if(ld)ld.textContent='Wir begleiten Geschäftsführungen und Teams im Mittelstand, damit Teams und Führungskräfte schneller entscheiden und gemeinsam liefern. Weniger Rückfragen, klare Rollen, Veränderungen, die im Alltag halten.';
   var ht=d.querySelector('.hero .ht');if(ht){var n=ht.querySelector('.note');if(!n){n=document.createElement('p');n.className='note';ht.appendChild(n)}n.innerHTML='Eine Stunde, kostenlos und unverbindlich. Oder ihr schaut zuerst selbst hin mit dem <a href="teamcheck.html">Teamcheck</a>.'}
   T(d,'h2','Mit diesen Organisationen','Mit diesen Kunden und Partnern arbeiten wir zusammen');
   H(d,'p.aside','Oder ihr kommt','Oder ihr kommt über einen konkreten Anlass zu uns. <a class="lnk" href="themen.html">Alle Anlässe ansehen →</a>');
