@@ -207,7 +207,7 @@ P['blog-vorschau']={title:'Blog',nav:'blog-vorschau.html',html:function(){return
 sec({c:'alt',b:'<div id="bl">'+postCards()+'</div><p class="note" id="bn"></p>'})+
 sec({h:'Lieber direkt sprechen?',i:'Wenn euch ein Thema gerade beschäftigt, sprecht uns an. Eine Stunde, ohne Verkaufsdruck.',b:'<p>'+BOOKQ('blog-liste')+'</p><p class="aside">Oder schaut erst selbst hin: '+lnk('Teamcheck','teamcheck.html')+'</p>'})+
 sec({c:'alt',h:'Nichts verpassen',b:nl()+'<p class="aside">'+lnk('Newsletter-Archiv','newsletter.html')+'</p>'})},
-init:function(){EQ.posts(false).then(function(l){if(!l.length)return;document.getElementById('bl').innerHTML=liveCards(l);document.getElementById('bn').textContent='Live aus dem Wix-Blog geladen. Neue Artikel erscheinen hier automatisch.'}).catch(function(){})}};
+init:function(){EQ.posts(false).then(function(l){if(!l.length)return;document.getElementById('bl').innerHTML=liveCards(l)}).catch(function(){})}};
 
 var fixUrl=function(u,code){var m=/eq-collective\.de\/post\/([^?#]+)/.exec(u);if(m)return 'blog-beitrag.html?slug='+m[1];if(u.indexOf('calendar.app.google/fHnkaQPy2mJK1ZKZ7')>-1)return 'discovery-call.html" data-q="blog-'+code+'-text';return u};
 var rtxt=function(n,code){var t=esc(n.textData.text);(n.textData.decorations||[]).forEach(function(d){if(d.type==='BOLD')t='<strong>'+t+'</strong>';else if(d.type==='ITALIC')t='<em>'+t+'</em>';else if(d.type==='UNDERLINE')t='<u>'+t+'</u>';else if(d.type==='LINK'&&d.linkData&&d.linkData.link&&d.linkData.link.url){var u=fixUrl(d.linkData.link.url,code);t='<a href="'+u+(u.indexOf('blog-beitrag')===0||u.indexOf('discovery-call')===0?'':'" target="_blank" rel="noopener')+'">'+t+'</a>'}});return t};
@@ -502,7 +502,7 @@ var draw=function(){var r=items.filter(function(x){return (!q||x.tx.toLowerCase(
 draw();
 document.getElementById(id+'q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();draw()});
 document.getElementById(id+'t').addEventListener('click',function(e){var b=e.target.closest?e.target.closest('button'):null;if(!b)return;t=b.getAttribute('data-t');Array.prototype.forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b)});draw()});
-EQ.posts(false).then(function(l){if(!l.length)return;items=norm(l);draw();N.textContent='Live aus dem Wix-Blog geladen. Neue Artikel erscheinen hier automatisch. Die Themen ordnen wir automatisch nach Stichwörtern zu.'}).catch(function(){})};
+EQ.posts(false).then(function(l){if(!l.length)return;items=norm(l);draw()}).catch(function(){})};
 P['blog-vorschau']={title:'Blog',nav:'ressourcen.html',html:function(){return hero({k:'Blog',h:'Ideen für bessere Zusammenarbeit',l:'Einblicke aus unserer Praxis, geschrieben und gepflegt von Florian, Michael und Franziska.',c:'',v:foto('9190',1200)})+
 sec({c:'alt',b:blogBox('bl')})+
 sec({h:'Lieber direkt sprechen?',i:'Wenn euch ein Thema gerade beschäftigt, sprecht uns an. Eine Stunde, ohne Verkaufsdruck.',b:'<p>'+BOOKQ('blog-liste')+'</p><p class="aside">Oder schaut erst selbst hin: '+lnk('Teamcheck','teamcheck.html')+'</p>'})+
