@@ -923,7 +923,7 @@ WP('ressourcen',function(d){
   T(d,'.hero h1','Lesen','Blog und Newsletter');
   T(d,'.hero .lead','Blog, Newsletter','Ideen für bessere Zusammenarbeit, direkt aus unserer Praxis. Sucht nach einem Thema oder stöbert nach Schlagworten.');
   var b=d.querySelector('.hero .ctas a.btn'),l=d.querySelector('.hero .ctas a.lnk');
-  if(b&&l){b.textContent='Newsletter abonnieren';b.setAttribute('href','#newsletter');l.textContent='Teamcheck machen →';l.setAttribute('href','teamcheck.html')}
+  if(b&&l){b.textContent='Newsletter abonnieren';b.setAttribute('href','newsletter.html');l.textContent='Teamcheck machen →';l.setAttribute('href','teamcheck.html')}
   T(d,'p','Wir schreiben unregelmäßig','Der Newsletter erscheint ungefähr alle ein bis zwei Monate. Kurz, praxisnah, mit Ideen, die ihr gleich ausprobieren könnt.');
   
   T(d,'p','Vier offene Fragen','Vier offene Fragen. Ihr bekommt von uns eine persönliche Einschätzung per Mail, kostenlos und unverbindlich.');
