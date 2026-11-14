@@ -36,7 +36,7 @@ L.forEach(function(t){var v=t.nodeValue,o=v;R.forEach(function(r){v=v.replace(r[
 })();
 /*DS_OFFLINE*/
 (function(){if(document.body.getAttribute('data-page')==='anlass-digitale-souveraenitaet')return;document.querySelectorAll('a[href^="anlass-digitale-souveraenitaet.html"]').forEach(function(a){var c=a.closest('.card,.lbox,li');if(c&&c.parentNode)c.parentNode.removeChild(c);else if(a.parentNode)a.parentNode.removeChild(a)})})();
-document.getElementById('bg').onclick=function(){document.getElementById('nv').classList.toggle('open')};
+document.getElementById('bg').onclick=function(){var nv=document.getElementById('nv'),o=nv.classList.toggle('open');this.classList.toggle('x',o);this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Menü schließen':'Menü')};
 document.querySelectorAll('img[data-foto]').forEach(function(el){var id=el.getAttribute('data-foto'),w=+el.getAttribute('data-w')||1000;var r=el.getAttribute('data-r');var u=M+(P[id].indexOf('~')>0?P[id]:'5156bf_'+P[id]+'~mv2.jpg');if(r){var W=Math.round(w*(r==='h'?1.9:2));el.src=u+'/v1/fill/w_'+W+',h_'+Math.round(W*2/3)+',al_c,q_80/foto.jpg';el.style.objectPosition=(OP[id]||50)+'% 50%';if(r==='h'&&VY[id]){el.style.transform='translateY('+VY[id]+'%) scale('+(1+2*VY[id]/100)+')'}}else{el.src=u+'/v1/fill/w_'+w+',h_'+Math.round(w*2/3)+',al_c,q_80/foto.jpg'};el.setAttribute('data-quelle','TANNE9_EQ-Collective-'+id+'_LR.jpg')});
 // Herkunft merken und an Buchungslinks weitergeben
 var q='';try{var u=new URLSearchParams(location.search).get('q');if(u){sessionStorage.setItem('q',u)}q=sessionStorage.getItem('q')||''}catch(e){}
