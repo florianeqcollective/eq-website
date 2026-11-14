@@ -1,0 +1,71 @@
+/* Cockpit-Abschnitt secFZ. Kopfzeile var ...=D.x nennt alles, was aus dem Kern gebraucht wird. */
+window.EQIN=window.EQIN||{};
+EQIN.secFZ=function(D){
+var NA=D.NA;
+function secFZ(by){var it=by['finanzen'];if(!it||!it.daten)return NA;var d=it.daten;
+var fe=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
+var nv=function(v){return v==null||isNaN(Number(v))?null:Number(v)};
+var fn=function(v){return nv(v)==null?'–':Number(v).toLocaleString('de-DE',{maximumFractionDigits:0})};
+var NB=String.fromCharCode(160);
+var eur=function(v){return nv(v)==null?'–':fn(v)+NB+'€'};
+var fdat=function(s){var p=String(s==null?'':s).slice(0,10).split('-');return p.length===3&&p[0].length===4?p[2]+'.'+p[1]+'.'+p[0]:String(s==null?'':s)};
+var MNN=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+var mlab=function(k){var p=String(k||'').split('-'),i=parseInt(p[1],10);return p.length>1&&i>=1&&i<=12?MNN[i-1]+' '+p[0].slice(2):String(k||'–')};
+var AMP={gruen:['in-fz-g','grün'],gelb:['in-fz-y','gelb'],rot:['in-fz-r','rot'],erledigt:['in-fz-e','erledigt']};
+var acl=function(a){return AMP[a]?AMP[a][0]:'in-fz-e'};
+var alab=function(a){return AMP[a]?AMP[a][1]:String(a||'–')};
+var dot=function(a){return '<span class="in-fz-d '+acl(a)+'" aria-hidden="true"></span>'};
+var atx=function(a){return a==='erledigt'?'erledigt':'Ampel '+alab(a)};
+var nu=d.naechsteUst||{},mn=d.minKonto||{},ms=d.minKontoSicher||{},qs=d.quartale||[];
+var neg=function(v){return nv(v)!=null&&nv(v)<0?'in-fz-neg':''};
+var t1='<div class="in-fz-t" title="Kontostand laut letztem Stand der Finanzzahlen"><i class="in-fz-tt">Kontostand</i><b>'+eur(d.kontostand)+'</b><span>Stand '+fe(fdat(d.stand))+'</span></div>';
+var t2='<div class="in-fz-t" title="Nächster Termin für die Umsatzsteuer-Zahlung. Grün heißt: Der Kontostand am Vortag deckt sie."><i class="in-fz-tt">Nächste Zahlung ans Finanzamt</i><b>'+fe(fdat(nu.datum))+'</b><span class="in-fz-l">'+eur(nu.betrag)+'</span><span class="in-fz-l">'+dot(nu.ampel)+'<strong class="in-fz-a '+acl(nu.ampel)+'">'+(nu.ampel==='gruen'?'geht durch':fe(atx(nu.ampel)))+'</strong></span>'+(nv(nu.kontoVortag)!=null?'<span>Kontostand am Vortag: '+eur(nu.kontoVortag)+'</span>':'')+'</div>';
+var t3='<div class="in-fz-t" title="Ampel je Quartal. Zweite Angabe: Ergebnis, wenn nur bereits gestellte Rechnungen zählen."><i class="in-fz-tt">Folgende Quartale</i>'+(qs.filter(function(q){return q.ampel!=='erledigt'}).length?'<ul class="in-fz-ql">'+qs.filter(function(q){return q.ampel!=='erledigt'}).map(function(q){var sj=q.ampelSicher&&q.ampelSicher!==q.ampel&&q.ampel!=='erledigt';return '<li>'+dot(q.ampel)+'<span class="in-fz-qt"><b>'+fe(q.quartal)+'</b> fällig '+fe(fdat(q.faellig))+', '+eur(q.betrag)+'<em>'+fe(atx(q.ampel))+(sj?', nur gestellte Rechnungen: '+fe(alab(q.ampelSicher)):'')+'</em></span></li>'}).join('')+'</ul>':'<span>keine Quartale im Eintrag</span>')+'</div>';
+var ex=function(S){var M0=d.monate||[],r=null;for(var i=0;i<M0.length&&r==null;i++){var a0=Array.isArray(d.art)?String(d.art[i]||'').toLowerCase():'';if(a0==='vergangen')continue;if(nv(S[i])!=null&&nv(S[i])<0)r=i}return r};
+var ek=ex(d.konto||[]),es=ex(d.kontoSicher||[]);
+var t4='<div class="in-fz-t" title="Erster Monat, in dem der Kontostand unter null fällt. Niedrigster Kontostand: '+fe(eur(mn.wert))+' im '+fe(mlab(mn.monat))+'"><i class="in-fz-tt">Wann geht das Geld aus?</i><b class="'+(ek!=null?'in-fz-neg':'')+'">'+(ek!=null?fe(mlab(d.monate[ek])):'Kein Engpass')+'</b><span>'+(ek!=null?'Kontostand wird negativ ('+eur(d.konto[ek])+')':'Kontostand bleibt in den nächsten 9 Monaten im Plus')+'</span><span>Nur gestellte Rechnungen: '+(es!=null?'<strong class="in-fz-neg">'+fe(mlab(d.monate[es]))+'</strong> ('+eur(d.kontoSicher[es])+')':'kein Engpass')+'</span></div>';
+var h='<div class="in-fz-tiles">'+t1+t2+t3+t4+'</div>';
+var M=d.monate||[],E=d.einnahmen||[],A=d.ausgaben||[],K=d.konto||[],KS=d.kontoSicher||[],n=M.length;
+if(!n)return h+'<p class="muted">Noch keine Monatswerte im Eintrag.</p>';
+var mk=function(i){var m=M[i];return m&&typeof m==='object'?(m.monat||m.m||m.key||m.id):m};
+var artOf=function(i){var m=M[i],a=(m&&typeof m==='object'&&m.art)||(Array.isArray(d.art)?d.art[i]:(d.art&&d.art[mk(i)]))||'';a=String(a).toLowerCase();if(!a){var c=String(mk(i)),s=String(d.stand||'').slice(0,7);a=c<s?'vergangen':(c===s?'laufend':'prognose')}return a};
+var vals=[0];[E,A,K,KS].forEach(function(S){S.forEach(function(v){if(nv(v)!=null)vals.push(Number(v))})});
+var lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals);if(hi===lo)hi=lo+1;
+var raw=(hi-lo)/5,p10=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)),st=p10;[1,2,2.5,5,10].some(function(f){st=f*p10;return raw<=st});
+var y0=Math.floor(lo/st+1e-9)*st,y1=Math.ceil(hi/st-1e-9)*st,ns=Math.round((y1-y0)/st);
+var W=720,H=360,L=62,R=14,T=26,B=40,PW=W-L-R,PH=H-T-B,sl=PW/n;
+var Y=function(v){return T+PH*(y1-v)/(y1-y0)};
+var X=function(i){return L+sl*(i+0.5)};
+var g='<text x="4" y="14" font-size="11" fill="#5a6b6e">Euro</text>';
+for(var k=0;k<=ns;k++){var gv=y0+k*st;g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(gv).toFixed(1)+'" y2="'+Y(gv).toFixed(1)+'" stroke="'+(Math.abs(gv)<st/1000?'#5a6b6e':'#e3ebec')+'" stroke-width="1"/><text x="'+(L-8)+'" y="'+(Y(gv)+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#5a6b6e">'+fn(gv)+'</text>'}
+var NL=String.fromCharCode(10),qm={};qs.forEach(function(q){var k=String(q.faellig||'').slice(0,7);(qm[k]=qm[k]||[]).push(q)});
+var tt=function(s){return '<title>'+fe(s)+'</title>'};
+var arl=function(a){return a==='vergangen'?'vergangen':(a==='laufend'?'laufender Monat':'Prognose')};
+var bw=Math.min(18,sl*0.3),bars='',band='',xl='',lab='',mark='',hit='';
+for(var i=0;i<n;i++){var ar=artOf(i),past=ar==='vergangen',op=past?0.45:1;
+if(past)band+='<rect x="'+(L+sl*i).toFixed(1)+'" y="'+T+'" width="'+sl.toFixed(1)+'" height="'+PH+'" fill="#eef3f4"/>';
+var ev=nv(E[i]),av=nv(A[i]);
+var mm=mlab(mk(i)),fa=qm[String(mk(i))]||[],fs=0;fa.forEach(function(q){fs+=nv(q.betrag)||0});
+var ft=fa.map(function(q){return q.quartal+': '+eur(q.betrag)+' (fällig '+fdat(q.faellig)+')'}).join(NL);
+var kv0=nv(K[i]),ks0=nv(KS[i]),sal=(ev||0)-(av||0);
+var xE=mm+' · Einnahmen '+eur(ev)+NL+arl(ar)+(ar==='prognose'?(NL+'Kontostand nur mit gestellten Rechnungen: '+eur(ks0)):'');
+var xA=mm+' · Ausgaben '+eur(av)+NL+(fs>0?'davon Finanzamt:'+NL+ft+NL+'übrige Ausgaben: '+eur(Math.max(0,av-fs))+NL+'(Finanzamt ist in den Ausgaben enthalten)':'Kein Finanzamt-Termin in diesem Monat, alles übrige Ausgaben');
+var xK=mm+' · Kontostand '+eur(kv0)+NL+'Saldo des Monats: '+eur(sal)+NL+'nur gestellte Rechnungen: '+eur(ks0);
+hit+='<rect x="'+(L+sl*i).toFixed(1)+'" y="'+T+'" width="'+sl.toFixed(1)+'" height="'+PH+'" fill="#000" fill-opacity="0">'+tt(mm+' ('+arl(ar)+')'+NL+'Einnahmen '+eur(ev)+NL+'Ausgaben '+eur(av)+NL+'Saldo '+eur(sal)+NL+'Kontostand '+eur(kv0)+NL+'nur gestellte Rechnungen '+eur(ks0))+'</rect>';
+if(ks0!=null&&ks0!==kv0)mark+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(ks0).toFixed(1)+'" r="7" fill="#000" fill-opacity="0">'+tt(mm+' · nur gestellte Rechnungen'+NL+'Kontostand '+eur(ks0)+NL+'(ohne erwartete, noch nicht gestellte Rechnungen)')+'</circle>';
+if(ev!=null)bars+='<rect x="'+(X(i)-bw-1).toFixed(1)+'" y="'+Math.min(Y(ev),Y(0)).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.abs(Y(ev)-Y(0)).toFixed(1)+'" fill="#34A853" opacity="'+op+'">'+tt(xE)+'</rect>';
+if(av!=null)bars+='<rect x="'+(X(i)+1).toFixed(1)+'" y="'+Math.min(Y(av),Y(0)).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.abs(Y(av)-Y(0)).toFixed(1)+'" fill="#CC0000" opacity="'+op+'">'+tt(xA)+'</rect>';
+xl+='<text x="'+X(i).toFixed(1)+'" y="'+(H-B+17)+'" text-anchor="middle" font-size="11" fill="'+(past?'#8a9a9d':'#2b3a3d')+'"'+(ar==='laufend'?' font-weight="700"':'')+'>'+fe(mlab(mk(i)))+'</text>';
+var kv=nv(K[i]);
+if(kv!=null){var cx=X(i),cy=Y(kv);mark+='<polygon points="'+cx.toFixed(1)+','+(cy-5).toFixed(1)+' '+(cx+5).toFixed(1)+','+cy.toFixed(1)+' '+cx.toFixed(1)+','+(cy+5).toFixed(1)+' '+(cx-5).toFixed(1)+','+cy.toFixed(1)+'" fill="#226A7A" stroke="#fff" stroke-width="1">'+tt(xK)+'</polygon>';
+lab+='<text x="'+cx.toFixed(1)+'" y="'+(cy-9).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="600" fill="#226A7A" stroke="#fff" stroke-width="3" paint-order="stroke">'+fn(kv)+'</text>'}}
+var path=function(S){var s='',pen=false;S.forEach(function(v,i){var x=nv(v);if(x==null){pen=false;return}s+=(pen?'L':'M')+X(i).toFixed(1)+' '+Y(x).toFixed(1)+' ';pen=true});return s};
+var svg='<svg class="in-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Einnahmen, Ausgaben und Kontostand je Monat, 3 Monate zurück, 9 voraus">'+band+g+hit+bars+'<path d="'+path(KS)+'" fill="none" stroke="#8a9a9d" stroke-width="1.8" stroke-dasharray="6 4"/><path d="'+path(K)+'" fill="none" stroke="#226A7A" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>'+mark+lab+xl+'</svg>';
+var leg='<div class="in-leg in-fz-leg"><span title="Einnahmen je Monat, bei Prognosemonaten erwartet"><i style="background:#34A853"></i>Einnahmen</span><span title="Ausgaben je Monat inklusive Zahlung ans Finanzamt"><i style="background:#CC0000"></i>Ausgaben</span><span title="Kontostand je Monat mit allen erwarteten Einnahmen"><svg class="in-fz-lg" width="28" height="10" viewBox="0 0 28 10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" stroke="#226A7A" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/><polygon points="14,0.5 18.5,5 14,9.5 9.5,5" fill="#226A7A"/></svg>Kontostand</span><span title="Kontostand, wenn nur bereits gestellte Rechnungen eingehen"><svg class="in-fz-lg" width="28" height="10" viewBox="0 0 28 10" aria-hidden="true"><line x1="0" y1="5" x2="28" y2="5" stroke="#8a9a9d" stroke-width="1.8" stroke-dasharray="6 4"/></svg>nur gestellte Rechnungen</span><span title="Monate, die schon gelaufen sind"><i style="background:#eef3f4;border:1px solid #d5e0e2"></i>vergangene Monate</span></div>';
+h+='<div class="in-card"><h3 class="in-h3" style="margin-top:0">3 Monate zurück, 9 voraus</h3><div class="in-fz-sc">'+svg+'</div>'+leg+'</div>';
+var rows='';for(var j=0;j<n;j++){rows+='<tr><td data-l="Monat"><b>'+fe(mlab(mk(j)))+'</b></td><td data-l="Art">'+fe(artOf(j))+'</td><td data-l="Einnahmen">'+eur(E[j])+'</td><td data-l="Ausgaben">'+eur(A[j])+'</td><td data-l="Kontostand">'+eur(K[j])+'</td><td data-l="Nur gestellte Rechnungen">'+eur(KS[j])+'</td></tr>'}
+h+='<details class="in-det"><summary>Zahlen je Monat</summary><table class="rt"><thead><tr><th>Monat</th><th>Art</th><th>Einnahmen</th><th>Ausgaben</th><th>Kontostand</th><th>Nur gestellte Rechnungen</th></tr></thead><tbody>'+rows+'</tbody></table></details>';
+if(d.abschlagRegel)h+='<p class="in-note" style="margin-top:12px">Abschlagsregel: '+fe(d.abschlagRegel)+'</p>';
+return h}
+return secFZ;
+};
