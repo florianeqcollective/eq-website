@@ -196,3 +196,46 @@ test('Lesbarkeit: Fliesstext nicht kleiner als 14 Pixel, Kontrast der Hauptschri
   assert.ok(d.size >= 14, 'Schrift ' + d.size);
   await r.ctx.close();
 });
+
+// Besucherweg (Tracking): nur mit Einwilligung in der Kategorie "statistik"
+async function trackCtx(consent, path) {
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'de-DE' });
+  await ctx.addInitScript((c) => { try { localStorage.setItem('eqc_consent', JSON.stringify({ v: 1, ts: Date.now(), c })); } catch (e) {} }, consent);
+  const page = await ctx.newPage();
+  const posts = [], other = [];
+  await page.route('**/*', async (route) => {
+    const req = route.request(); const u = req.url();
+    if (u.startsWith(base) || u.startsWith('data:')) return route.continue();
+    if (/wixapis\.com\/oauth2\/token/.test(u)) return route.fulfill({ status: 200, contentType: 'application/json', body: '{"access_token":"test"}' });
+    if (/wixapis\.com\/wix-data\/v2\/items$/.test(u)) { try { posts.push(JSON.parse(req.postData())); } catch (e) {} return route.fulfill({ status: 200, contentType: 'application/json', body: '{}' }); }
+    other.push(u); return route.abort();
+  });
+  await page.goto(base + path, { waitUntil: 'load' });
+  await page.waitForTimeout(900);
+  return { ctx, page, posts, other };
+}
+
+test('Besucherweg: ohne Einwilligung in statistik wird nichts gesendet und nichts gespeichert', async () => {
+  const r = await trackCtx({ notwendig: true, extern: true, statistik: false }, '/ressourcen.html?c=4711&utm_source=linkedin');
+  const reise = r.posts.filter((p) => p.dataCollectionId === 'reise');
+  assert.equal(reise.length, 0);
+  const ls = await r.page.evaluate(() => [localStorage.getItem('eqc_vid'), localStorage.getItem('eqc_ft')]);
+  assert.deepEqual(ls, [null, null]);
+  await r.ctx.close();
+});
+
+test('Besucherweg: mit Einwilligung kommen Aufruf, Herkunft und Call-Klick an', async () => {
+  const r = await trackCtx({ notwendig: true, extern: true, statistik: true }, '/index.html?c=4711&utm_source=linkedin&utm_campaign=geburtstag');
+  let reise = r.posts.filter((p) => p.dataCollectionId === 'reise').map((p) => p.dataItem.data);
+  assert.equal(reise.length, 1, 'genau ein Aufruf erwartet, war ' + reise.length);
+  const a = reise[0];
+  assert.equal(a.ereignis, 'aufruf'); assert.equal(a.code, '4711'); assert.equal(a.quelle, 'linkedin'); assert.equal(a.kampagne, 'geburtstag');
+  assert.match(a.besucher, /^[0-9a-f]{16,}$/);
+  assert.ok(!('email' in a) && !('name' in a), 'keine direkten Personendaten');
+  await r.page.locator('a[href^="coffee-call.html"], a[href^="discovery-call.html"], a[href^="kontakt.html"]').first().click();
+  await r.page.waitForTimeout(700);
+  reise = r.posts.filter((p) => p.dataCollectionId === 'reise').map((p) => p.dataItem.data);
+  assert.ok(reise.some((x) => x.ereignis === 'klick_call'), 'klick_call fehlt');
+  assert.ok(reise.every((x) => x.besucher === a.besucher), 'Besucherkennung wechselt');
+  await r.ctx.close();
+});

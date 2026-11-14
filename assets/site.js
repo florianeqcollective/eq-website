@@ -208,3 +208,30 @@ document.addEventListener('eqc:change',gate);
 function go(){gate();new MutationObserver(s).observe(document.documentElement,{childList:true,subtree:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
 })();
+
+/*EQ_REISE*/
+(function(){
+// Besucherweg, nur mit Einwilligung (Kategorie statistik). Ohne Einwilligung wird nichts gespeichert und nichts gesendet.
+var VK='eqc_vid',FK='eqc_ft',sent={};
+function ok(){return !!(window.EQC&&window.EQC.allowed&&window.EQC.allowed('statistik')&&window.EQ&&window.EQ.insert)}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}return null}
+function rid(){var a='';try{var b=new Uint8Array(12);crypto.getRandomValues(b);for(var i=0;i<b.length;i++)a+=('0'+b[i].toString(16)).slice(-2)}catch(e){a=String(Date.now())+Math.random().toString(16).slice(2)}return a}
+function qs(k){try{return new URLSearchParams(location.search).get(k)||''}catch(e){return ''}}
+function host(u){try{var h=new URL(u).hostname;return /(^|\.)eq-collective\.de$/.test(h)?'':h}catch(e){return ''}}
+function trim(s,n){return String(s||'').slice(0,n||120)}
+function vid(){var v=ls(VK);if(!v){v=rid();ls(VK,v)}return v}
+function first(){var f=ls(FK);if(f){try{return JSON.parse(f)}catch(e){}}
+f={t:new Date().toISOString(),q:window.EQ_SOURCE||qs('q'),c:qs('c'),s:qs('utm_source'),m:qs('utm_medium'),k:qs('utm_campaign'),r:host(document.referrer)};ls(FK,JSON.stringify(f));return f}
+function send(ev,ziel){if(!ok())return;var f=first(),c=qs('c')||f.c;
+var d={besucher:vid(),zeit:new Date().toISOString(),ereignis:ev,seite:trim(location.pathname,80),ziel:trim(ziel,120),quelle:trim(qs('utm_source')||f.s||f.q,60),medium:trim(qs('utm_medium')||f.m,40),kampagne:trim(qs('utm_campaign')||f.k,60),code:trim(c,20),q:trim(window.EQ_SOURCE||qs('q')||f.q,60),referrer:trim(f.r,80)};
+window.EQ.insert('reise',d).catch(function(){})}
+function view(){if(sent.v)return;if(!ok())return;sent.v=1;send('aufruf','')}
+document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a||!ok())return;var h=a.getAttribute('href')||'';
+if(/^(discovery-call|coffee-call|kontakt|teamcheck)\.html/.test(h))send('klick_call',h.split('#')[0]);
+else if(/^https:\/\/calendar\.app\.google\//.test(h))send('klick_kalender_extern','calendar.app.google')
+else if(/^https?:\/\/app\.eq-collective\.de\//.test(h))send('klick_blog',h.replace(/^https?:\/\/app\.eq-collective\.de/,'').slice(0,100))});
+document.addEventListener('eqc:change',function(){if(ok()){view()}else{ls(VK,null);ls(FK,null);sent={}}});
+function start(){view()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+window.EQ_REISE={state:function(){return{aktiv:ok(),besucher:ok()?ls(VK):null}}};
+})();

@@ -431,3 +431,5 @@ p,li,figcaption{text-wrap:pretty}
 /*BURGERX*/.burger{font-size:0;line-height:0;width:44px;height:44px;padding:0;position:relative;margin-right:-10px;-webkit-tap-highlight-color:transparent}.burger::before,.burger::after{content:"";position:absolute;left:10px;width:24px;height:2.5px;border-radius:2px;background:currentColor;transition:transform .55s cubic-bezier(.45,0,.2,1),top .55s cubic-bezier(.45,0,.2,1),box-shadow .55s cubic-bezier(.45,0,.2,1)}.burger::before{top:14px;box-shadow:0 8px 0 currentColor}.burger::after{top:30px}.burger.x::before{top:22px;transform:rotate(45deg);box-shadow:0 0 0 transparent}.burger.x::after{top:22px;transform:rotate(-45deg)}@media(prefers-reduced-motion:reduce){.burger::before,.burger::after{transition:none}}
 
 /*NOTEEMPTY*/.note:empty{display:none}
+
+/*EQ_OVERFLOW2*/.grid>*,.card{min-width:0;max-width:100%}.card h3,.card p{overflow-wrap:anywhere;hyphens:auto}@media (max-width:900px){.g3,.g2,.g4{grid-template-columns:minmax(0,1fr)}}
