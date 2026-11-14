@@ -423,3 +423,5 @@ p,li,figcaption{text-wrap:pretty}
 /*FOOT320*/.fg>*{min-width:0}.f a{overflow-wrap:anywhere}@media(max-width:380px){.fg{grid-template-columns:1fr}}
 
 /*QUAD320*/.quad>*{min-width:0}@media(max-width:380px){.quad{grid-template-columns:1fr}}
+
+/*EMBEDH*/@media(max-width:900px){.embed iframe{height:1000px}}@media(max-width:600px){.embed iframe{height:1500px}}
