@@ -427,3 +427,5 @@ p,li,figcaption{text-wrap:pretty}
 /*EMBEDH*/@media(max-width:900px){.embed iframe{height:1000px}}@media(max-width:600px){.embed iframe{height:1500px}}
 
 /*EQ_OVERFLOW*/.hero-g>*,.hv,.hv .foto,.ht{min-width:0;max-width:100%}.hv .foto img{max-width:100%}@media (max-width:900px){.hero-g{grid-template-columns:minmax(0,1fr)}}
+
+/*BURGERX*/.burger{font-size:0;line-height:0;width:44px;height:44px;padding:0;position:relative;margin-right:-10px;-webkit-tap-highlight-color:transparent}.burger::before,.burger::after{content:"";position:absolute;left:10px;width:24px;height:2.5px;border-radius:2px;background:currentColor;transition:transform .28s ease,top .28s ease,box-shadow .28s ease}.burger::before{top:14px;box-shadow:0 8px 0 currentColor}.burger::after{top:30px}.burger.x::before{top:22px;transform:rotate(45deg);box-shadow:0 0 0 transparent}.burger.x::after{top:22px;transform:rotate(-45deg)}@media(prefers-reduced-motion:reduce){.burger::before,.burger::after{transition:none}}
