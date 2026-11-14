@@ -511,7 +511,7 @@ P['ressourcen']={title:'Ressourcen',nav:'ressourcen.html',html:function(){return
 sec({c:'alt',h:'Blog',i:'Einblicke aus unserer Praxis, sortiert nach Thema.',b:blogBox('rs')})+
 '<span id="newsletter"></span>'+sec({h:'Newsletter',i:'Wir schreiben unregelmäßig und nur, wenn wir etwas zu sagen haben. Kurz, praxisnah, mit Ideen, die ihr gleich ausprobieren könnt.',b:nl()+'<h3 class="sub" style="margin-top:44px">Frühere Ausgaben</h3><div class="arch">'+NLA.map(function(x){return '<a href="'+x[2]+'" target="_blank" rel="noopener"><img src="https://img-wixmp-09d1505942a280459f0fa212.wixmp.com/images/shoutout-editor/'+x[3]+'" alt="" loading="lazy"><p class="post-meta">'+x[1]+'</p><h3>'+x[0]+'</h3></a>'}).join('')+'</div>'})+
 sec({c:'alt',h:'Selbst hinschauen',b:'<div class="two"><div><p class="intro">Vier offene Fragen. Ihr bekommt von uns eine persönliche Einschätzung per Mail, kostenlos und ohne Verkaufsdruck.</p><p>'+a('Zum Teamcheck','teamcheck.html')+'</p></div>'+ill('LCOUCH')+'</div>'})},init:function(){blogInit('rs')}};
-P['newsletter'].nav='ressourcen.html';P['blog-beitrag'].nav='ressourcen.html';
+P['newsletter'].nav='newsletter.html';P['blog-beitrag'].nav='ressourcen.html';
 
 /* Startseite */
 var oIdx=P['index'].html;
