@@ -1,0 +1,29 @@
+{
+  "_hinweis": "Bekannte Abweichungen, die bewusst offen sind (Entscheidungskarte bei Flo). Jeder Eintrag braucht eine Karte oder einen Grund. Neue Abweichungen duerfen hier nur mit Begruendung eintragen werden.",
+  "sitemap": [
+    "call.html"
+  ],
+  "noindex": [
+    "call.html"
+  ],
+  "anchors": [
+    "datenschutz.html#cookie-einstellungen"
+  ],
+  "dashes": [
+    "ressourcen.html"
+  ],
+  "contacts": [
+    "datenschutz.html:florian@eq-collective.de",
+    "assets/pages.js:florian@eq-collective.de"
+  ],
+  "title": [
+    "ressourcen.html:dup"
+  ],
+  "consent": [
+    "blog-beitrag.html",
+    "blog-vorschau.html",
+    "newsletter.html",
+    "ressourcen.html"
+  ],
+  "_consent": "Diese Seiten holen Blog- und Newsletter-Daten von Wix (wixapis.com, anonymes Token). Entscheidungskarte offen."
+}

@@ -1,0 +1,11 @@
+{
+  "name": "eq-website",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/static.test.cjs tests/browser.test.cjs",
+    "test:static": "node --test tests/static.test.cjs",
+    "test:browser": "node --test tests/browser.test.cjs",
+    "test:live": "node --test tests/live.test.cjs"
+  },
+  "devDependencies": { "playwright": "^1.49.0" }
+}

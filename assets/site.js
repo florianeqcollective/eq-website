@@ -193,3 +193,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 /* SK_TOUCH: Tooltips der Skill-Chips auf Touchgeräten schließbar (Tippen außerhalb, erneutes Tippen, Escape) */
 (function(){var was=null;var act=function(){var a=document.activeElement;return a&&a.classList&&a.classList.contains('sk')?a:null};document.addEventListener('pointerdown',function(e){var s=e.target.closest?e.target.closest('.sk'):null;var a=act();was=(s&&s===a)?s:null;if(a&&s!==a)a.blur()},true);document.addEventListener('click',function(e){var s=e.target.closest?e.target.closest('.sk'):null;if(s&&was===s){s.blur()}was=null},true);document.addEventListener('keydown',function(e){if(e.key==='Escape'){var a=act();if(a)a.blur()}})})();
+
+/*EQ_IFRAMEGATE*/
+(function(){
+function mk(f){var u=f.getAttribute('data-eqc-src');var d=document.createElement('div');d.setAttribute('data-eqc-ph','');d.style.cssText='padding:28px 22px;border:1px solid #d9d9d9;background:#f6f6f4;color:#161616;font:400 15px/1.55 Montserrat,system-ui,sans-serif';
+var p=document.createElement('p');p.style.margin='0 0 14px';p.textContent='Der Terminkalender kommt von Google. Er lädt erst, wenn ihr Inhalte von Dritten erlaubt.';d.appendChild(p);
+var b=document.createElement('button');b.type='button';b.setAttribute('data-eqc-open','');b.textContent='Einstellungen öffnen';b.style.cssText='min-height:44px;padding:10px 16px;border:2px solid #161616;background:#161616;color:#fff;font:600 12px/1.2 Montserrat,system-ui,sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;margin:0 14px 8px 0';d.appendChild(b);
+var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Kalender direkt bei Google öffnen';a.style.cssText='color:#161616;text-decoration:underline';d.appendChild(a);return d}
+function gate(){var ok=window.EQC&&window.EQC.allowed('extern');var l=document.querySelectorAll('iframe[data-eqc-src]');for(var i=0;i<l.length;i++){var f=l[i],pv=f.previousElementSibling,has=pv&&pv.hasAttribute&&pv.hasAttribute('data-eqc-ph');
+if(ok){f.setAttribute('src',f.getAttribute('data-eqc-src'));f.removeAttribute('data-eqc-src');f.style.display='';if(has)pv.parentNode.removeChild(pv)}
+else{f.style.display='none';if(!has)f.parentNode.insertBefore(mk(f),f)}}}
+var q=false;function s(){if(q)return;q=true;(window.requestAnimationFrame||setTimeout)(function(){q=false;gate()})}
+document.addEventListener('eqc:change',gate);
+function go(){gate();new MutationObserver(s).observe(document.documentElement,{childList:true,subtree:true})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
+})();

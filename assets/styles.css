@@ -425,3 +425,5 @@ p,li,figcaption{text-wrap:pretty}
 /*QUAD320*/.quad>*{min-width:0}@media(max-width:380px){.quad{grid-template-columns:1fr}}
 
 /*EMBEDH*/@media(max-width:900px){.embed iframe{height:1000px}}@media(max-width:600px){.embed iframe{height:1500px}}
+
+/*EQ_OVERFLOW*/.hero-g>*,.hv,.hv .foto,.ht{min-width:0;max-width:100%}.hv .foto img{max-width:100%}@media (max-width:900px){.hero-g{grid-template-columns:minmax(0,1fr)}}
