@@ -2,10 +2,13 @@
   "name": "eq-website",
   "private": true,
   "scripts": {
-    "test": "node --test tests/static.test.cjs tests/browser.test.cjs",
+    "test": "node --test tests/static.test.cjs tests/browser.test.cjs tests/links.test.cjs",
     "test:static": "node --test tests/static.test.cjs",
-    "test:browser": "node --test tests/browser.test.cjs",
-    "test:live": "node --test tests/live.test.cjs"
+    "test:browser": "node --test tests/browser.test.cjs tests/links.test.cjs",
+    "test:live": "node --test tests/live.test.cjs tests/links-live.test.cjs",
+    "test:links": "node --test tests/links.test.cjs"
   },
-  "devDependencies": { "playwright": "^1.49.0" }
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
 }
