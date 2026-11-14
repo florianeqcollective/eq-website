@@ -1,0 +1,53 @@
+name: kleinigkeiten
+on:
+  push:
+    paths:
+      - '.github/workflows/kleinigkeiten.yml'
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aufraeumen
+        run: |
+          python3 - <<'PY'
+          import re,glob
+          n=0
+          # 1 + 2: Links auf Newsletter-Archiv und Blog-Beitraege (liegen auf der Core-Seite)
+          for f in ['assets/pages.js','newsletter.html']:
+              s=open(f,encoding='utf-8').read()
+              o=s
+              s=s.replace('https://www.eq-collective.de/so/','https://app.eq-collective.de/so/').replace('https://www.zebra-kollektiv.de/so/','https://app.eq-collective.de/so/')
+              if f.endswith('.js'):
+                  s=s.replace("https://www.eq-collective.de/post/","https://app.eq-collective.de/post/")
+              assert s!=o,f
+              open(f,'w',encoding='utf-8').write(s)
+          # 3: Wix-SEO-Meta-Tag
+          for f in glob.glob('*.html'):
+              s=open(f,encoding='utf-8').read()
+              t=re.sub(r'<meta wix-seo-tag="true"[^>]*>','',s)
+              if t!=s:
+                  n+=1; open(f,'w',encoding='utf-8').write(t)
+          print('seo-tag entfernt in',n)
+          # 4: Datenschutz Abschnitt 4
+          f='datenschutz.html'
+          s=open(f,encoding='utf-8').read()
+          old='<p>Diese Website betreiben wir über Wix.com Ltd.,'
+          assert old in s
+          new=('<p>Diese Website liegt bei GitHub Pages, einem Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA (Konzern Microsoft). '
+           'GitHub liefert die Seiten aus und verarbeitet dabei technisch bedingt eure IP-Adresse und die unten genannten Zugriffsdaten. '
+           'Die Übermittlung in die USA stützt sich auf den Angemessenheitsbeschluss der EU-Kommission zum EU-U.S. Data Privacy Framework, soweit der Empfänger zertifiziert ist, ansonsten auf Standardvertragsklauseln. '
+           'Mehr dazu in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>. '
+           'Die Namensauflösung unserer Domain (DNS) übernimmt die united domains AG, Gautinger Straße 10, 82319 Starnberg.</p>'
+           '<p>Für Formulare, Newsletter, Blog-Artikel, den internen Bereich und die Auslieferung der Bilder nutzen wir weiterhin Wix.com Ltd.,')
+          s=s.replace(old,new,1)
+          s=s.replace('Bilder und Dateien liefert das Wix-Medien-Netzwerk aus, die Verbindung ist per TLS verschlüsselt.','Bilder liefert das Wix-Medien-Netzwerk aus, die Verbindung ist per TLS verschlüsselt.')
+          open(f,'w',encoding='utf-8').write(s)
+          PY
+          git config user.name "eq-bot"
+          git config user.email "bot@eq-collective.de"
+          git add -A
+          git commit -m "Aufraeumen: Archivlinks, Blog-Links, Wix-Meta-Tag, Datenschutz Hosting"
+          git push
