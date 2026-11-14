@@ -683,7 +683,7 @@ function LNK(t,h){return '<a class="lnk" href="'+h+'">'+t+' →</a>'}
 /* ---------- Start ---------- */
 WP('index',function(d){
   var h1=d.querySelector('.hero h1');if(h1){h1.textContent='Training und Organisations­entwicklung aus Rosenheim.';h1.style.cssText+=';font-size:clamp(1.55rem,2.6vw,2.2rem);overflow-wrap:break-word;hyphens:manual'}
-  var ld=d.querySelector('.hero .lead');if(ld)ld.textContent='Wir begleiten Geschäftsführungen und Teams im Mittelstand, damit Teams und Führungskräfte schneller entscheiden und gemeinsam liefern. Weniger Rückfragen, klare Rollen, Veränderungen, die im Alltag halten.';
+  var ld=d.querySelector('.hero .lead');if(ld)ld.textContent='Wir begleiten Geschäftsführungen, Führungskräfte und Teams im Mittelstand, damit Entscheidungen schneller fallen und Ergebnisse gemeinsam entstehen. Weniger Rückfragen, klare Rollen, Veränderungen, die im Alltag halten.';
   var ht=d.querySelector('.hero .ht');if(ht){var n=ht.querySelector('.note');if(!n){n=document.createElement('p');n.className='note';ht.appendChild(n)}n.innerHTML='Eine Stunde, kostenlos und unverbindlich. Oder ihr schaut zuerst selbst hin mit dem <a href="teamcheck.html">Teamcheck</a>.'}
   T(d,'h2','Mit diesen Organisationen','Mit diesen Kunden und Partnern arbeiten wir zusammen');
   H(d,'p.aside','Oder ihr kommt','Oder ihr kommt über einen konkreten Anlass zu uns. <a class="lnk" href="themen.html">Alle Anlässe ansehen →</a>');
