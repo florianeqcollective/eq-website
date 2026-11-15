@@ -1,0 +1,61 @@
+name: tmp-n1
+on:
+  push:
+    paths:
+      - .github/workflows/tmp-n1.yml
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          mkdir -p /tmp/w /tmp/pw
+          cat > /tmp/w/n_patch.py <<'EOF_n_patch_py'
+          import re,glob
+          def rep(path,pairs):
+              s=open(path,encoding='utf8').read()
+              for a,b in pairs:
+                  print(path,repr(a[:40]),s.count(a))
+                  s=s.replace(a,b)
+              open(path,'w',encoding='utf8').write(s)
+          rep('assets/pages.js',[
+           ("vier Räume","vier Quadranten"),
+           ("Jeder Raum zeigt","Jeder Quadrant zeigt"),
+           ("5156bf_6563f4217ada4efa9860ac4eca56937b~mv2.jpg/v1/fill/w_694,h_702,al_c,q_80","5156bf_6563f4217ada4efa9860ac4eca56937b~mv2.jpg/v1/fill/w_694,h_702,fp_0.74_0.45,q_80"),
+          ])
+          n=0
+          for f in glob.glob('*.html'):
+              t=open(f,encoding='utf8').read();o=t
+              t=re.sub(r'\?v=2026\d+[a-z]*','?v=20261117s',t)
+              if t!=o: open(f,'w',encoding='utf8').write(t);n+=1
+          print('html',n)
+          EOF_n_patch_py
+          cat > /tmp/w/f_render.cjs <<'EOF_f_render_cjs'
+          const http=require('http'),fs=require('fs'),path=require('path');const {chromium}=require('playwright');
+          const root=process.cwd();const mode=process.argv[2];
+          const files=fs.readdirSync(root).filter(f=>f.endsWith('.html')&&/data-page=/.test(fs.readFileSync(f,'utf8'))&&!['404.html','intern.html','blog-beitrag.html'].includes(f));
+          const srv=http.createServer((q,r)=>{const u=q.url.split('?')[0];let f=path.join(root,u);if(!fs.existsSync(f)||fs.statSync(f).isDirectory()){r.statusCode=404;f=path.join(root,'404.html')}const ext=path.extname(f);r.setHeader('content-type',{'.js':'text/javascript','.css':'text/css','.html':'text/html'}[ext]||'application/octet-stream');r.end(fs.readFileSync(f))}).listen(0,async()=>{
+           const b=await chromium.launch();const p=await b.newPage();
+           await p.route(/^https?:\/\/(?!localhost)/,r=>r.abort());
+           const out={};
+           for(const f of files){await p.goto('http://localhost:'+srv.address().port+'/'+f);await p.waitForTimeout(600);out[f]=await p.evaluate(()=>document.querySelector('main').innerHTML)}
+           await b.close();srv.close();
+           if(mode==='before'){fs.writeFileSync('/tmp/before.json',JSON.stringify(out));console.log('before',files.length)}
+           else{const bef=JSON.parse(fs.readFileSync('/tmp/before.json','utf8'));let n=0;
+            for(const f of files){if(out[f]!==bef[f]){const s=fs.readFileSync(f,'utf8');const t=s.replace(/(<main[^>]*>)[\s\S]*?(<\/main>)/,(m,a,c)=>a+out[f]+c);fs.writeFileSync(f,t);n++;console.log('neu',f)}}
+            console.log('geaendert',n)}
+          });
+          EOF_f_render_cjs
+          cd /tmp/pw && npm init -y >/dev/null && npm i playwright >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1
+          cd $GITHUB_WORKSPACE
+          git checkout d6b5de0 -- assets/site.js assets/pages.js '*.html'
+          export NODE_PATH=/tmp/pw/node_modules && node /tmp/w/f_render.cjs before && python3 /tmp/w/n_patch.py && node /tmp/w/f_render.cjs after
+          git config user.name eq-website-bot
+          git config user.email eq-website-bot@users.noreply.github.com
+          git add -A
+          git commit -m 'Runde 7 korrigiert: Lösungen bleibt, Quadranten, Franzi How-Foto Ausschnitt'
+          git push
