@@ -99,3 +99,19 @@ test('Banner bietet die Kategorie Statistik, standardmaessig aus, und die Datens
     await r.ctx.close();
   } finally { await browser.close(); srv.close(); }
 });
+
+test('blogHtml: Startwerte je Beitrag plus neu gezaehlte Aufrufe, sortiert nach Gesamt', () => {
+  const z = load();
+  const item = { daten: { stand: '2026-11-15', beitraege: [
+    { slug: 'a', titel: 'Alpha', datum: '2026-04-14', ansichten: 118 },
+    { slug: 'b', titel: 'Beta', datum: '2026-01-01', ansichten: 7 } ] } };
+  const now = Date.now();
+  const rows = [
+    { ereignis: 'aufruf', seite: 'blog-beitrag.html', ziel: 'b', zeit: new Date(now).toISOString(), besucher: 'x' },
+    { ereignis: 'aufruf', seite: 'blog-beitrag.html', ziel: 'c', zeit: new Date(now).toISOString(), besucher: 'x' } ];
+  const h = z.blogHtml(item, z.aggregate(rows, now));
+  assert.match(h, /Alpha[\s\S]*Beta[\s\S]*>c</);
+  assert.match(h, /Ansichten gesamt<\/span><span class="in-sub">Startwerte 125 plus neu gezählt 2/);
+  assert.equal(z.blogHtml(null, null), '');
+  assert.match(z.blogHtml(item, null), /Alpha/);
+});

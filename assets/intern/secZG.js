@@ -23,13 +23,13 @@ return out}
 function sorted(o){return Object.keys(o).map(function(k){return{k:k,e:o[k]}}).sort(function(a,b){return b.e.d30-a.e.d30||b.e.d90-a.e.d90||(a.k<b.k?-1:1)})}
 function rows(list,label,max){if(!list.length)return '<p class="muted">Noch keine Zahlen.</p>';
 return '<table class="rt"><thead><tr><th>'+esc(label)+'</th><th>7 Tage</th><th>30 Tage</th><th>90 Tage</th><th>Besucher in 30 Tagen</th></tr></thead><tbody>'+list.slice(0,max||30).map(function(x){return '<tr><td data-l="'+esc(label)+'">'+esc(x.k)+'</td><td data-l="7 Tage">'+nf(x.e.d7)+'</td><td data-l="30 Tage">'+nf(x.e.d30)+'</td><td data-l="90 Tage">'+nf(x.e.d90)+'</td><td data-l="Besucher in 30 Tagen">'+nf(Object.keys(x.e.v).length)+'</td></tr>'}).join('')+'</tbody></table>'}
-function html(a,capped){
+function html(a,capped,noPosts){
 if(!a.total.d90)return '<p class="muted">Noch keine Zugriffe gezählt. Die Zählung läuft nur mit Einwilligung in die Kategorie Statistik und startet, sobald diese im Banner freigegeben ist.</p>';
 var src=Object.keys(a.src).map(function(k){return{k:k,n:a.src[k]}}).sort(function(x,y){return y.n-x.n}).slice(0,10);
 return '<div class="in-tiles"><div class="in-tile"><b>'+nf(a.total.d7)+'</b><span>Aufrufe, 7 Tage</span></div><div class="in-tile"><b>'+nf(a.total.d30)+'</b><span>Aufrufe, 30 Tage</span></div><div class="in-tile"><b>'+nf(a.vis30)+'</b><span>Besucher, 30 Tage</span></div><div class="in-tile"><b>'+nf(a.total.d90)+'</b><span>Aufrufe, 90 Tage</span></div></div>'+
 '<p class="in-note">Gezählt werden nur Besuche mit Einwilligung in Statistik. Die echten Zahlen liegen darüber.'+(capped?' Es sind mehr als 1000 Ereignisse im Zeitraum, die Zahlen sind deshalb eine Untergrenze.':'')+'</p>'+
 '<h3 class="in-h">Seiten</h3>'+rows(sorted(a.pages),'Seite',40)+
-'<h3 class="in-h">Blog-Beiträge</h3>'+rows(sorted(a.posts),'Beitrag',40)+
+(noPosts?'':'<h3 class="in-h">Blog-Beiträge</h3>'+rows(sorted(a.posts),'Beitrag',40))+
 '<h3 class="in-h">Herkunft in 30 Tagen</h3>'+(src.length?'<table class="rt"><thead><tr><th>Quelle</th><th>Aufrufe</th></tr></thead><tbody>'+src.map(function(x){return '<tr><td data-l="Quelle">'+esc(x.k)+'</td><td data-l="Aufrufe">'+nf(x.n)+'</td></tr>'}).join('')+'</tbody></table>':'<p class="muted">Noch keine Zahlen.</p>')}
 function monday(d){var t=Date.parse(d+'T00:00:00Z');var wd=(new Date(t).getUTCDay()+6)%7;return new Date(t-wd*DAY).toISOString().slice(0,10)}
 function dm(d){var p=String(d).split('-');return p.length===3?p[2]+'.'+p[1]+'.':d}
@@ -41,18 +41,31 @@ tiles+='<div class="in-tile"><b>'+nf(sitz)+'</b><span>Sitzungen, '+esc(q.name||k
 var wk=Object.keys(weeks).sort().reverse();
 var tbl='<table class="rt"><thead><tr><th>Woche ab</th>'+keys.map(function(k){return '<th>'+esc((d.quellen[k].name||k).split(' (')[0])+'</th>'}).join('')+'</tr></thead><tbody>'+wk.map(function(w){return '<tr><td data-l="Woche ab">'+esc(dm(w))+'</td>'+keys.map(function(k){return '<td data-l="'+esc((d.quellen[k].name||k).split(' (')[0])+'">'+nf(weeks[w][k]||0)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>';
 return '<h3 class="in-h">Startwerte aus Wix</h3><div class="in-tiles">'+tiles+'</div><p class="in-note">Sitzungen je Woche aus der Wix-Auswertung vom '+esc(dm(d.von||''))+' bis '+esc(dm(d.bis||'').replace(/\.$/,''))+'. Wix hält nur 62 Tage, deshalb sichern wir sie hier. Seit dem Umzug auf GitHub Pages zählt Wix die öffentliche Seite nicht mehr.</p>'+tbl}
+// Blog-Beitraege: Startwerte aus Wix (kennzahlen, zugriffe-blog-start) plus die neu gezaehlten Aufrufe aus reise.
+function dmy(d){var p=String(d||'').split('-');return p.length===3?p[2]+'.'+p[1]+'.'+p[0]:esc(d||'')}
+function blogRows(item,a){var d=item&&item.daten;if(!d||!d.beitraege)return null;
+var known={},list=d.beitraege.map(function(b){known[b.slug]=1;var n=(a&&a.posts&&a.posts[b.slug])?a.posts[b.slug].d90:0;return{slug:b.slug,titel:b.titel||b.slug,datum:b.datum||'',start:b.ansichten||0,neu:n,ges:(b.ansichten||0)+n}});
+Object.keys((a&&a.posts)||{}).forEach(function(k){if(!known[k]){var n=a.posts[k].d90;list.push({slug:k,titel:k,datum:'',start:0,neu:n,ges:n})}});
+list.sort(function(x,y){return y.ges-x.ges||(x.titel<y.titel?-1:1)});return{list:list,stand:d.stand||''}}
+function blogHtml(item,a){var b=blogRows(item,a);if(!b)return '';
+var sumS=0,sumN=0;b.list.forEach(function(x){sumS+=x.start;sumN+=x.neu});
+return '<h3 class="in-h">Blog-Beiträge einzeln</h3><div class="in-tiles"><div class="in-tile"><b>'+nf(sumS+sumN)+'</b><span>Ansichten gesamt</span><span class="in-sub">Startwerte '+nf(sumS)+' plus neu gezählt '+nf(sumN)+'</span></div></div>'+
+'<table class="rt"><thead><tr><th>Beitrag</th><th>Veröffentlicht</th><th>Start aus Wix</th><th>Neu gezählt</th><th>Gesamt</th></tr></thead><tbody>'+b.list.map(function(x){return '<tr><td data-l="Beitrag">'+esc(x.titel)+'</td><td data-l="Veröffentlicht">'+dmy(x.datum)+'</td><td data-l="Start aus Wix">'+nf(x.start)+'</td><td data-l="Neu gezählt">'+nf(x.neu)+'</td><td data-l="Gesamt"><b>'+nf(x.ges)+'</b></td></tr>'}).join('')+'</tbody></table>'+
+'<p class="in-note">Start aus Wix sind die Ansichten je Beitrag am '+dmy(b.stand)+', gezählt seit der Veröffentlichung. Neu gezählt sind Aufrufe auf der neuen Website mit Einwilligung in Statistik, höchstens die letzten 90 Tage. Die echte Gesamtzahl liegt etwas höher, weil nicht alle Besucher zustimmen.</p>'}
 function mount(el){if(!el||!qx)return;el.innerHTML='<p class="muted">Einen Moment …</p>';
 var since=new Date(Date.now()-90*DAY).toISOString();
 Promise.all([
 qx('kennzahlen',{schluessel:{$eq:'zugriffe-wix-start'}},[],1).then(function(r){return r&&r[0]}).catch(function(){return null}),
-qx('reise',{ereignis:{$eq:'aufruf'},zeit:{$gte:since}},[{fieldName:'zeit',order:'DESC'}],1000).catch(function(e){return e&&e.message==='auth'?'gesperrt':null})
-]).then(function(p){var st=p[0],r=p[1],out='';
+qx('reise',{ereignis:{$eq:'aufruf'},zeit:{$gte:since}},[{fieldName:'zeit',order:'DESC'}],1000).catch(function(e){return e&&e.message==='auth'?'gesperrt':null}),
+qx('kennzahlen',{schluessel:{$eq:'zugriffe-blog-start'}},[],1).then(function(r){return r&&r[0]}).catch(function(){return null})
+]).then(function(p){var st=p[0],r=p[1],bs=p[2],out='';
 if(!st&&r===null){el.innerHTML=NA;return}
 out+=startHtml(st);
+out+=blogHtml(bs,Array.isArray(r)?aggregate(r,Date.now()):null);
 out+='<h3 class="in-h">Zählung auf der neuen Website</h3>';
 if(r==='gesperrt')out+='<p class="muted">Die Einzelereignisse sind nur für Administratoren lesbar und werden hier deshalb noch nicht ausgewertet.</p>';
 else if(r===null)out+=NA;
-else out+=html(aggregate(r,Date.now()),r.length>=1000);
+else out+=html(aggregate(r,Date.now()),r.length>=1000,!!(bs&&bs.daten&&bs.daten.beitraege));
 el.innerHTML=out})}
-return{mount:mount,aggregate:aggregate,startHtml:startHtml};
+return{mount:mount,aggregate:aggregate,startHtml:startHtml,blogHtml:blogHtml};
 };
