@@ -998,5 +998,60 @@ function ins(k,re){var o=P[k].html;P[k].html=function(){var h=o.apply(this,argum
 ins('themen',/<div class="grid g3">/);ins('new-leadership',/Typische Anlässe<\/h2><p class="intro">[^<]*<\/p><div class="grid g3">/);
 P['themen'].title='Anlässe: Führungskräfte-Training, NIS-2, Nachfolge';P['themen'].desc='Wenn Führungskräfte-Training, NIS-2, Nachfolge oder Onboarding ansteht: EQ Collective zeigt, welche Lösungen passen.';
 })();
+/* FRANZI_FEEDBACK_START */
+ALLP(function(d,k){
+  if(k==='discovery-call'||k==='call'||k==='intern'||k==='blog-beitrag')return;
+  [].forEach.call(d.querySelectorAll('.hero .ctas a[href="discovery-call.html"]'),function(a){var c=a.parentNode;c.removeChild(a);if(!c.children.length&&c.parentNode)c.parentNode.removeChild(c)});
+  [].forEach.call(d.querySelectorAll('.hero p.note'),function(n){var t=sn(n.textContent);if(/^(Eine Stunde|Discovery Call heißt)/.test(t))n.parentNode.removeChild(n)});
+  TXQ(d,'in unserem Trainingsraum','in einem Trainingsraum');
+});
+WP('index',function(d){
+  var lead=d.querySelector('.hero .lead');
+  if(lead)lead.textContent='Wir machen Organisationen zu Orten, an denen Menschen ihre Arbeit sinnvoll finden, einander vertrauen und wirksam zusammenarbeiten. Dafür begleiten wir Geschäftsführungen, Führungskräfte und Teams im Mittelstand, damit Entscheidungen schneller fallen und Ergebnisse gemeinsam entstehen.';
+  T(d,'p.aside','Wirkung machen wir sichtbar','Die Wirkung machen wir sichtbar. Wir halten vorher fest, woran ihr den Erfolg erkennt, und schauen nachher gemeinsam darauf.');
+  var w=SE(d,'Drei Wege, wie wir zusammenarbeiten können'),first=d.querySelector('section.sec');
+  if(w&&first&&w!==first)first.parentNode.insertBefore(w,first);
+  var fi=Q(d,'section .fsrow p.intro','Für jedes Training kombinieren wir');
+  if(fi)fi.textContent=fi.textContent+' Wir orientieren uns hierbei am Future Skills Navigator von Arndt Pechstein und Martin Schwemmle, einem Future Skills Modell, das Kompetenzen strukturiert, die uns als Spezies Mensch in der Arbeitswelt zukunftsfähig machen.';
+  [].forEach.call(d.querySelectorAll('.skt i'),function(i){i.parentNode.removeChild(i)});
+  [].forEach.call(d.querySelectorAll('.cyc svg text'),function(t){if(/Schleife|statt großer Wurf/.test(t.textContent))t.parentNode.removeChild(t)});
+  var pb=d.querySelector('.pbox'),tall=d.querySelector('.two.top .tall');
+  if(pb&&tall){tall.innerHTML='';tall.appendChild(pb)}
+  var alt=false;[].forEach.call(d.children,function(s){if(s.tagName==='SECTION'&&/(^|\s)sec(\s|$)/.test(s.className)&&!/dark|ctaband/.test(s.className)){s.className=alt?'sec alt':'sec';alt=!alt}});
+});
+WP('loesungen',function(d){
+  T(d,'.hero .kick','Unsere Lösungen','Unsere Trainings');
+  T(d,'.hero .lead','Vier Lösungen','Trainings, die ihr einzeln oder kombiniert nutzen könnt. Jedes baut auf Future Skills auf.');
+  T(d,'section h2','Vier Lösungen','Unsere Trainings');
+  [['Die Lösungen lassen sich kombinieren','Die Trainings lassen sich kombinieren'],['Zwei der vier Lösungen behandeln, was KI für Führung und Zusammenarbeit bedeutet','Eines der Trainings behandelt, was KI für Führung bedeutet'],['die Lösungen von oben','die Trainings von oben'],['einer der vier Lösungen','einem der Trainings'],['Jede Lösung stellen wir','Jedes Training stellen wir'],['welche Lösungen passen','welche Trainings passen'],['bis zur Lösung','bis zum Training'],['Ihr startet eine unserer Lösungen','Ihr startet eines unserer Trainings']].forEach(function(x){TXQ(d,x[0],x[1])});
+  var a=SE(d,'Future Skills, die kleinsten Einheiten'),b=SE(d,'Wenn ein konkreter Anlass ansteht');
+  if(a&&b){var wa=a.querySelector('.wrap'),wb=b.querySelector('.wrap');
+    var n=document.createElement('section');n.className='sec';
+    n.innerHTML='<div class="wrap"><div class="two top"><div>'+wa.innerHTML+'</div><div>'+wb.innerHTML+'</div></div></div>';
+    a.parentNode.insertBefore(n,a);a.parentNode.removeChild(a);b.parentNode.removeChild(b)}
+  var rows=d.querySelectorAll('.jr .row');
+  if(rows.length>=4){
+    var h3=rows[0].querySelector('h3'),p=rows[0].querySelector('p');
+    if(h3)h3.textContent='Kennenlernen und Standortbestimmung';
+    if(p)p.innerHTML='Im Discovery Call schauen wir auf eure Lage und lernen uns kennen. Der Discovery Call findet meist remote statt. Falls ihr vor Ort in Rosenheim seid, kommen wir auch gerne bei euch vorbei. Wenn ihr vorher locker reinhören wollt, gibt es den <a href="coffee-call.html">Coffee Call</a>.';
+    rows[1].parentNode.removeChild(rows[1]);
+    [].forEach.call(d.querySelectorAll('.jr .row .jn'),function(j,i){j.textContent='0'+(i+1)});
+  }
+});
+WP('ueber-uns',function(d){
+  var h=Q(d,'.card h3','Wir folgen einer ganzheitlichen Betrachtung');
+  if(h){var c=h.parentNode,s=c.querySelector('svg.ic');
+    if(s)s.innerHTML='<rect x="5" y="5" width="17" height="17" class="ib"></rect><rect x="26" y="5" width="17" height="17" class="iu"></rect><rect x="5" y="26" width="17" height="17" class="ik"></rect><rect x="26" y="26" width="17" height="17" class="ib"></rect>'}
+});
+WP('florian',function(d){
+  TXQ(d,'wenn sie eine psychologische Sicherheit fühlen, Dinge selbst ausprobieren zu können und vor allem aus Fehlern schlauer zu werden','wenn sie sich psychologisch sicher fühlen, Dinge selbst ausprobieren dürfen und vor allem aus Fehlern schlauer werden');
+  TXQ(d,'auf ein fundiertes Fundament gestellt','auf eine fundierte Basis gestellt');
+});
+WP('franziska',function(d){
+  T(d,'h2','Why','Mein größter Antrieb: ein Team im Flow.');
+  T(d,'h2','How','Never stop learning!');
+  T(d,'h2','What','Den Spieß auch mal umdrehen');
+});
+/* FRANZI_FEEDBACK_END */
 window.PAGES=P;
 })();

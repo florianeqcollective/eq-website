@@ -433,3 +433,5 @@ p,li,figcaption{text-wrap:pretty}
 /*NOTEEMPTY*/.note:empty{display:none}
 
 /*EQ_OVERFLOW2*/.grid>*,.card{min-width:0;max-width:100%}.card h3,.card p{overflow-wrap:anywhere;hyphens:auto}@media (max-width:900px){.g3,.g2,.g4{grid-template-columns:minmax(0,1fr)}}
+
+/*FRANZI_FB_START*/nav.m a.navcta{background:var(--k);color:#fff;border-color:var(--k)}nav.m a.navcta:hover{background:var(--x);color:#fff;border-color:var(--x)}.logos.marq .track{animation-duration:28s}.logos.marq:active .track{animation-play-state:paused}/*FRANZI_FB_END*/

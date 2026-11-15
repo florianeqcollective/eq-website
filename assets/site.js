@@ -11,7 +11,7 @@ var VY={'9560':2};
 var key=document.body.getAttribute('data-page');
 var pg=window.PAGES&&window.PAGES[key];
 document.title=(pg?pg.title+' | ':'')+'EQ Collective';if(pg&&pg.desc){var md=hd.querySelector('meta[name=description]');if(!md){md=document.createElement('meta');md.setAttribute('name','description');hd.appendChild(md)}md.setAttribute('content',pg.desc);var od=hd.querySelector('meta[property="og:description"]');if(od)od.setAttribute('content',pg.desc);var ot=hd.querySelector('meta[property="og:title"]');if(ot)ot.setAttribute('content',document.title)}
-var nav=[['ueber-uns.html','Über uns'],['loesungen.html','Lösungen'],['teamcheck.html','Teamcheck'],['ressourcen.html','Blog'],['newsletter.html','Newsletter'],['kontakt.html','Call vereinbaren','navcta']];
+var nav=[['ueber-uns.html','Über uns'],['loesungen.html','Lösungen'],['teamcheck.html','Teamcheck'],['ressourcen.html','Blog'],['newsletter.html','Newsletter'],['discovery-call.html','Discovery Call buchen','navcta']];
 var act=pg&&pg.nav||'';
 var h='';
 h+='<header class="top"><div class="wrap nav"><a class="logo" href="index.html"><img src="assets/logo.svg" alt="EQ Collective"></a><button class="burger" aria-label="Menü" id="bg">☰</button><nav class="m" id="nv">';
