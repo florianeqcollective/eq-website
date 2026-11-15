@@ -11,7 +11,7 @@ var VY={'9560':2};
 var key=document.body.getAttribute('data-page');
 var pg=window.PAGES&&window.PAGES[key];
 document.title=(pg?pg.title+' | ':'')+'EQ Collective';if(pg&&pg.desc){var md=hd.querySelector('meta[name=description]');if(!md){md=document.createElement('meta');md.setAttribute('name','description');hd.appendChild(md)}md.setAttribute('content',pg.desc);var od=hd.querySelector('meta[property="og:description"]');if(od)od.setAttribute('content',pg.desc);var ot=hd.querySelector('meta[property="og:title"]');if(ot)ot.setAttribute('content',document.title)}
-var nav=[['ueber-uns.html','Über uns'],['loesungen.html','Lösungen'],['teamcheck.html','Teamcheck'],['ressourcen.html','Blog'],['newsletter.html','Newsletter'],['discovery-call.html','Discovery Call buchen','navcta']];
+var nav=[['ueber-uns.html','Über uns'],['loesungen.html','Trainings'],['teamcheck.html','Teamcheck'],['ressourcen.html','Blog'],['newsletter.html','Newsletter'],['discovery-call.html','Discovery Call buchen','navcta']];
 var act=pg&&pg.nav||'';
 var h='';
 h+='<header class="top"><div class="wrap nav"><a class="logo" href="index.html"><img src="assets/logo.svg" alt="EQ Collective"></a><button class="burger" aria-label="Menü" id="bg">☰</button><nav class="m" id="nv">';
@@ -19,7 +19,7 @@ nav.forEach(function(n){h+='<a href="'+n[0]+'"'+(n[2]?' class="navcta"':(act===n
 h+='</nav></div></header>';
 var main='<main>'+(pg?pg.html():'')+'</main>';
 var f='<footer class="f"><div class="wrap fg"><div><p class="fl">Wir gestalten Zusammenarbeit neu. Mit Methoden, die in Teams wirken.</p><p class="fl" style="font-size:.88rem;margin-top:10px">Training und Organisationsentwicklung aus Rosenheim, für Süddeutschland, Tirol und das Salzburger Land.</p><p class="fm"><a href="mailto:aloha@eq-collective.de">aloha@eq-collective.de</a><a href="tel:+4916099340307">+49 (0) 160 99 34 03 07</a></p></div>';
-f+='<div><h4>Lösungen</h4><a href="new-leadership.html">New Leadership</a><a href="selbstorganisation.html">Wirksame Selbstorganisation</a><a href="wertschaetzende-beziehungen.html">Wertschätzende Beziehungen</a><a href="ki-zeitalter.html">KI-Zeitalter</a><a href="organisationen.html">Für Organisationen</a><a href="kibun.html">Kibun</a><a href="themen.html">Anlässe</a></div>';
+f+='<div><h4>Trainings</h4><a href="new-leadership.html">New Leadership</a><a href="selbstorganisation.html">Wirksame Selbstorganisation</a><a href="wertschaetzende-beziehungen.html">Wertschätzende Beziehungen</a><a href="ki-zeitalter.html">KI-Zeitalter</a><a href="organisationen.html">Für Organisationen</a><a href="kibun.html">Kibun</a><a href="themen.html">Anlässe</a></div>';
 f+='<div><h4>Lesen und prüfen</h4><a href="teamcheck.html">Teamcheck</a><a href="blog-vorschau.html">Blog</a><a href="newsletter.html">Newsletter</a></div>';
 f+='<div><h4>Kontakt</h4><a href="discovery-call.html">Discovery Call</a><a href="coffee-call.html">Coffee Call</a><a href="kontakt.html">Kontakt</a><a href="ueber-uns.html">Über uns</a></div></div><div class="wrap fleg"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="agb.html">AGB</a><a href="intern.html">Intern</a></div>';
 f+='<div class="fband"><div class="wrap"><img class="fz" src="assets/zebra-w.svg" alt=""></div></div></footer>';
