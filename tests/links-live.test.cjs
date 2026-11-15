@@ -37,6 +37,8 @@ async function core(path, body) {
   assert.equal(r.status, 200, path + ' -> ' + r.status);
   return r.json();
 }
+// Wix drosselt viele Anfragen hintereinander mit 429. Das ist kein toter Link, deshalb mit Pause wiederholen und nur 404, 410 oder Netzfehler zaehlen.
+const statusRetry = async (u) => { let s; for (let i = 0; i < 4; i++) { s = await status(u); if (s !== 429) break; await new Promise((r) => setTimeout(r, 4000 * (i + 1))); } return s; };
 // dieselbe Umschreibung wie in assets/site.js
 const rewrite = (u) => String(u).replace(/^https?:\/\/(www\.)?(eq-collective|zebra-kollektiv)\.de\/so\//, APP + '/so/');
 
@@ -47,8 +49,8 @@ test('Newsletter-Archiv aus Wix: jeder Eintrag fuehrt (nach Umschreibung) zu ein
   const bad = [];
   for (const it of items) {
     const u = rewrite(it.url);
-    const s = await status(u);
-    if (typeof s !== 'number' || s >= 400) bad.push(it.titel + ' -> ' + u + ' (' + s + ')');
+    const s = await statusRetry(u);
+    if (s !== 429 && (typeof s !== 'number' || s >= 400)) bad.push(it.titel + ' -> ' + u + ' (' + s + ')');
   }
   assert.deepEqual(bad, []);
 });
@@ -60,8 +62,8 @@ test('Blog aus Wix: jeder Beitrag ist unter app.eq-collective.de/post/ erreichba
   const bad = [];
   for (const p of posts) {
     const u = APP + '/post/' + encodeURI(p.slug);
-    const s = await status(u);
-    if (typeof s !== 'number' || s >= 400) bad.push(p.title + ' -> ' + u + ' (' + s + ')');
+    const s = await statusRetry(u);
+    if (s !== 429 && (typeof s !== 'number' || s >= 400)) bad.push(p.title + ' -> ' + u + ' (' + s + ')');
   }
   assert.deepEqual(bad, []);
 });
