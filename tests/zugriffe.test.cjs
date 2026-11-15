@@ -33,6 +33,15 @@ test('Auswertung ordnet Blog-Aufrufe ueber die Adresse des Beitrags zu und liest
   assert.equal(Object.keys(a.posts).length, 1);
 });
 
+test('Startwerte aus Wix werden je Quelle summiert und nach Wochen gezeigt', () => {
+  const item = { daten: { von: '2026-11-02', bis: '2026-11-15', quellen: { core: { name: 'Wix Core (app)', tage: [['2026-11-02', 2, 2], ['2026-11-03', 3, 3], ['2026-11-09', 4, 4]] }, light: { name: 'Wix Light (Website)', tage: [['2026-11-04', 5, 5]] } } } };
+  const h = load().startHtml(item);
+  assert.match(h, /<b>9<\/b><span>Sitzungen, Wix Core/);
+  assert.match(h, /<b>5<\/b><span>Sitzungen, Wix Light/);
+  assert.match(h, /Woche ab[\s\S]*09\.11\.[\s\S]*02\.11\./);
+  assert.equal(load().startHtml(null), '');
+});
+
 test('Cockpit hat den Reiter Zugriffe und laedt den Abschnitt', () => {
   const html = L.read('intern.html'), js = L.read('assets/intern.js');
   assert.match(html, /assets\/intern\/secZG\.js/);
