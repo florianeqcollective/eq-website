@@ -1130,5 +1130,12 @@ WP('franziska',function(d){
  i.setAttribute('alt','Franziska Purr beim Workshop am Flipchart');
 });
 /* FRANZI_FEEDBACK5_END */
+/* FRANZI_FEEDBACK6_START */
+WP('franziska',function(d){
+ var i=d.querySelector('img[alt="Franziska Purr bei der Arbeit"]');
+ if(!i){miss('franziska how img');return}
+ i.setAttribute('src','https://static.wixstatic.com/media/5156bf_6563f4217ada4efa9860ac4eca56937b~mv2.jpg/v1/fill/w_694,h_702,al_c,q_80/foto.jpg');
+});
+/* FRANZI_FEEDBACK6_END */
 window.PAGES=P;
 })();
