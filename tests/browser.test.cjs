@@ -179,7 +179,7 @@ test('Versteckte Seiten werden auf keiner Seite verlinkt', async () => {
 });
 
 test('Buchungs-Buttons: jeder Terminlink fuehrt auf eine Buchungsseite oder einen Kalender', async () => {
-  const ok = /^(discovery-call\.html|coffee-call\.html|kontakt\.html|call\.html|teamcheck\.html)(\?.*)?(#.*)?$/;
+  const ok = /^(discovery-call\.html|coffee-call\.html|coffee-call-franzi\.html|kontakt\.html|call\.html|teamcheck\.html)(\?.*)?(#.*)?$/;
   const bad = [];
   for (const f of PAGES) {
     const r = await open(f, { wait: 400 });

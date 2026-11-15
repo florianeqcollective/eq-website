@@ -41,7 +41,7 @@ document.querySelectorAll('img[data-foto]').forEach(function(el){var id=el.getAt
 // Herkunft merken und an Buchungslinks weitergeben
 var q='';try{var u=new URLSearchParams(location.search).get('q');if(u){sessionStorage.setItem('q',u)}q=sessionStorage.getItem('q')||''}catch(e){}
 window.EQ_SOURCE=q;
-window.EQ_TAG=function(root){(root||document).querySelectorAll('a[href^="discovery-call.html"],a[href^="coffee-call.html"]').forEach(function(a){if(a.hasAttribute('data-q')){a.href=a.getAttribute('href').split('?')[0]+'?q='+encodeURIComponent(a.getAttribute('data-q'))}else if(q){a.href=a.getAttribute('href').split('?')[0]+'?q='+encodeURIComponent(q)}})};
+window.EQ_TAG=function(root){(root||document).querySelectorAll('a[href^="discovery-call.html"],a[href^="coffee-call.html"],a[href^="coffee-call-franzi.html"]').forEach(function(a){if(a.hasAttribute('data-q')){a.href=a.getAttribute('href').split('?')[0]+'?q='+encodeURIComponent(a.getAttribute('data-q'))}else if(q){a.href=a.getAttribute('href').split('?')[0]+'?q='+encodeURIComponent(q)}})};
 window.EQ_TAG();
 
 // Zugriff auf Wix (alte Seite EQ Collective): Blog lesen, Formulare in CMS-Sammlungen speichern
@@ -228,7 +228,7 @@ var d={besucher:vid(),zeit:new Date().toISOString(),ereignis:ev,seite:trim(locat
 window.EQ.insert('reise',d).catch(function(){})}
 function view(){if(sent.v)return;if(!ok())return;sent.v=1;send('aufruf',/blog-beitrag\.html$/.test(location.pathname)?qs('slug'):'')}
 document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a||!ok())return;var h=a.getAttribute('href')||'';
-if(/^(discovery-call|coffee-call|kontakt|teamcheck)\.html/.test(h))send('klick_call',h.split('#')[0]);
+if(/^(discovery-call|coffee-call|coffee-call-franzi|kontakt|teamcheck)\.html/.test(h))send('klick_call',h.split('#')[0]);
 else if(/^https:\/\/calendar\.app\.google\//.test(h))send('klick_kalender_extern','calendar.app.google')
 else if(/^https?:\/\/app\.eq-collective\.de\//.test(h))send('klick_blog',h.replace(/^https?:\/\/app\.eq-collective\.de/,'').slice(0,100))});
 document.addEventListener('eqc:change',function(){if(ok()){view()}else{ls(VK,null);ls(FK,null);sent={}}});

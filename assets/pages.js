@@ -1137,5 +1137,22 @@ WP('franziska',function(d){
  i.setAttribute('src','https://static.wixstatic.com/media/5156bf_6563f4217ada4efa9860ac4eca56937b~mv2.jpg/v1/fill/w_694,h_702,fp_0.74_0.45,q_80/foto.jpg');
 });
 /* FRANZI_FEEDBACK6_END */
+/* FRANZI_FEEDBACK8_START */
+var CALF='https://calendar.google.com/calendar/appointments/schedules/AcZssZ0HjaH2Ih928LzF_-BshqhTU6Reg_B1pOKkN4hDuem6K0l48EAuM-pX6xnV66WaY0p07DHID_wk?gv=true';
+P['coffee-call-franzi']={title:'Coffee Call mit Franzi: 15 Minuten kennenlernen',desc:'Ein lockeres Kennenlernen in 15 Minuten mit Franzi von EQ Collective, ohne Agenda. Kostenlos und unverbindlich.',nav:'kontakt.html',html:function(){return hero({k:'15 Minuten',h:'Coffee Call mit Franzi',l:'Ihr habt eine Frage oder wollt Franzi erst kennenlernen? Sprecht 15 Minuten mit ihr, ohne Agenda. Kostenlos und unverbindlich.',c:a('Coffee Call buchen','#termin')+lnk('Lieber gleich der Discovery Call','discovery-call.html'),v:'<figure class="foto"><img src="https://static.wixstatic.com/media/130bbf_876de8f455004e88b598ec71ceef8340~mv2.jpg/v1/fill/w_1054,h_702,al_c,q_80/foto.jpg" alt="Franziska Purr" loading="lazy" width="1054" height="702" style="aspect-ratio:1054/702"></figure>'})+
+'<span id="termin"></span>'+sec({c:'alt',h:'Termin wählen',i:'Wählt einen Termin, der euch passt. Ihr bekommt eine Bestätigung per Mail mit dem Link zum Gespräch.',b:'<div class="embed" style="margin-top:24px"><iframe data-eqc-src="'+CALF+'" title="Terminkalender: Coffee Call mit Franzi buchen"></iframe></div><p class="aside">Der Termin passt nicht? <a href="https://calendar.app.google/cFagH64kS7BJvduy5">Kalender in eigenem Fenster öffnen</a>, schreibt uns an '+MAILT+' oder ruft an unter '+TELT+'. Lieber mit Flo sprechen? <a href="coffee-call.html">Hier geht es zu Flos Coffee Call</a>.</p>'+PRIV})+
+sec({h:'Wofür der Coffee Call gut ist',b:cards([{t:'Kennenlernen',p:'Ihr lernt Franzi und ihre Arbeitsweise kennen, bevor ihr mehr Zeit investiert.'},{t:'Eine Frage klären',p:'Passt ein Training zu eurem Thema? Das lässt sich in 15 Minuten sagen.'},{t:'Den nächsten Schritt wählen',p:'Danach entscheidet ihr, ob ein Discovery Call sinnvoll ist.'}])})+
+v6band('Lieber gleich in die Tiefe?','Der Discovery Call dauert eine Stunde und gibt euch ein klares Bild.','Discovery Call buchen','discovery-call.html','Teamcheck machen','teamcheck.html')}};
+WP('coffee-call',function(d){
+ var l=d.querySelector('a[href^="https://calendar.app.google/cFag"]');
+ if(!l){miss('coffee-call franzi link');return}
+ l.setAttribute('href','coffee-call-franzi.html');l.removeAttribute('target');l.removeAttribute('rel');
+});
+WP('franziska',function(d){
+ var b=d.querySelector('.hero .ctas a.btn[href^="https://calendar.app.google/cFag"]');
+ if(!b){miss('franziska hero coffee btn');return}
+ b.setAttribute('href','coffee-call-franzi.html');b.removeAttribute('target');b.removeAttribute('rel');
+});
+/* FRANZI_FEEDBACK8_END */
 window.PAGES=P;
 })();

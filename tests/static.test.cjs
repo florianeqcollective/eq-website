@@ -322,7 +322,7 @@ test('Anlass-Seiten sind in themen.html verlinkt', () => {
 
 test('Personenseiten: Buttons fuehren auf bestehende Seiten, kein Kalender-Fremdlink im statischen HTML', () => {
   assert.match(L.read('florian.html'), /href="coffee-call\.html">15 Min\. Coffee Call mit Flo/);
-  assert.match(L.read('franziska.html'), /href="kontakt\.html">Kontakt zu Franzi aufnehmen/);
+  assert.match(L.read('franziska.html'), /href="coffee-call-franzi\.html">15 Min\. Coffee Call mit Franzi/);
   assert.doesNotMatch(L.read('florian.html'), /calendar\.app\.google/);
 });
 
