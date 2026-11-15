@@ -76,3 +76,26 @@ test('Besucherweg meldet bei Beitragsseiten die Adresse des Beitrags (nur mit Ei
     assert.equal(ohne.length, 0, 'Ohne Einwilligung darf nichts gesendet werden');
   } finally { await browser.close(); srv.close(); }
 });
+
+test('Banner bietet die Kategorie Statistik, standardmaessig aus, und die Datenschutzerklaerung beschreibt sie', async () => {
+  if (!chromium) throw new Error('Playwright fehlt');
+  const ds = L.read('datenschutz.html');
+  assert.match(ds, /Reichweitenmessung \(Kategorie Statistik\)/);
+  assert.match(ds, /eqc_vid/);
+  assert.match(ds, /nach sechs Monaten gelöscht/);
+  assert.match(ds, /eqc_ft/);
+  assert.doesNotMatch(ds, /ohne Reichweitenmessung, Tracking/);
+  const { srv, url } = await L.startServer();
+  const browser = await chromium.launch();
+  try {
+    const r = await S.openPage(browser, url, 'index.html', { wait: 1200 });
+    await r.page.click('.eqc-l');
+    const d = await r.page.evaluate(() => { const i = document.querySelector('.eqc input[aria-label="Statistik"]'); return i ? { checked: i.checked, disabled: i.disabled } : null; });
+    assert.deepEqual(d, { checked: false, disabled: false });
+    await r.page.click('.eqc-b.n');
+    const st = await r.page.evaluate(() => JSON.parse(localStorage.getItem('eqc_consent')).c);
+    assert.equal(st.statistik, false);
+    assert.equal(await r.page.evaluate(() => localStorage.getItem('eqc_vid')), null);
+    await r.ctx.close();
+  } finally { await browser.close(); srv.close(); }
+});

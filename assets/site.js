@@ -94,7 +94,8 @@ if(/[?&]pre=1/.test(location.search))return;
 var KEY='eqc_consent',VER=1,MAXAGE=365*24*3600*1000;
 var CATS=[
 {id:'notwendig',t:'Notwendig',d:'Damit die Seite funktioniert und sicher bleibt, zum Beispiel die Zuordnung zum richtigen Server und das Merken dieser Entscheidung. Immer aktiv.',lock:1},
-{id:'extern',t:'Externe Dienste',d:'Eingebettete Inhalte von Dritten, zum Beispiel eine Terminbuchung über Google Kalender. Aktuell binden wir nichts ein. Sobald wir es tun, wird es nur mit eurer Zustimmung geladen.'}
+{id:'extern',t:'Externe Dienste',d:'Eingebettete Inhalte von Dritten, zum Beispiel eine Terminbuchung über Google Kalender. Aktuell binden wir nichts ein. Sobald wir es tun, wird es nur mit eurer Zustimmung geladen.'},
+{id:'statistik',t:'Statistik',d:'Wir messen, welche Seiten gelesen werden und über welchen Weg Besucher zu uns finden, damit wir die Seite verbessern können. Dafür speichern wir eine zufällige Kennung in eurem Browser und übertragen Seitenaufrufe und Klicks an unser System bei Wix. Namen oder E-Mail-Adressen sind nicht dabei.'}
 ];
 function rd(){try{var o=JSON.parse(localStorage.getItem(KEY)||'null');if(o&&o.v===VER&&o.c&&Date.now()-o.ts<MAXAGE)return o}catch(e){}return null}
 var st=rd(),root=null,last=null;
@@ -111,7 +112,7 @@ root=el('div','eqc');root.setAttribute('role','dialog');root.setAttribute('aria-
 var h=el('h2','eqc-h',settings?'Cookie-Einstellungen':'Eure Privatsphäre');h.id='eqc-t';root.appendChild(h);
 var p=el('p','eqc-p');
 if(!settings){
-p.innerHTML='Diese Seite kommt ohne Tracking und ohne Werbe-Cookies aus. Technisch notwendige Speicherungen sind immer aktiv. Inhalte von Dritten, etwa Google Kalender, laden wir nur mit eurer Zustimmung. Ihr könnt jederzeit ablehnen und eure Wahl später ändern. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.';
+p.innerHTML='Diese Seite kommt ohne Werbe-Cookies aus. Technisch notwendige Speicherungen sind immer aktiv. Eine einfache Reichweitenmessung und Inhalte von Dritten, etwa Google Kalender, schalten wir nur mit eurer Zustimmung ein. Ihr könnt jederzeit ablehnen und eure Wahl später ändern. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.';
 root.appendChild(p);
 var r=el('div','eqc-row');
 r.appendChild(btn('n','Nur notwendige',function(){decide(all(false))}));
