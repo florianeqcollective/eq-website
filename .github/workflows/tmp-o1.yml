@@ -1,0 +1,86 @@
+name: tmp-o1
+on:
+  push:
+    paths:
+      - .github/workflows/tmp-o1.yml
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p /tmp/w /tmp/pw
+          cat > /tmp/w/o_block.js <<'EOF_o_block_js'
+          /* FRANZI_FEEDBACK8_START */
+          var CALF='https://calendar.google.com/calendar/appointments/schedules/AcZssZ0HjaH2Ih928LzF_-BshqhTU6Reg_B1pOKkN4hDuem6K0l48EAuM-pX6xnV66WaY0p07DHID_wk?gv=true';
+          P['coffee-call-franzi']={title:'Coffee Call mit Franzi: 15 Minuten kennenlernen',desc:'Ein lockeres Kennenlernen in 15 Minuten mit Franzi von EQ Collective, ohne Agenda. Kostenlos und unverbindlich.',nav:'kontakt.html',html:function(){return hero({k:'15 Minuten',h:'Coffee Call mit Franzi',l:'Ihr habt eine Frage oder wollt Franzi erst kennenlernen? Sprecht 15 Minuten mit ihr, ohne Agenda. Kostenlos und unverbindlich.',c:a('Coffee Call buchen','#termin')+lnk('Lieber gleich der Discovery Call','discovery-call.html'),v:'<figure class="foto"><img src="https://static.wixstatic.com/media/130bbf_876de8f455004e88b598ec71ceef8340~mv2.jpg/v1/fill/w_1054,h_702,al_c,q_80/foto.jpg" alt="Franziska Purr" loading="lazy" width="1054" height="702" style="aspect-ratio:1054/702"></figure>'})+
+          '<span id="termin"></span>'+sec({c:'alt',h:'Termin wählen',i:'Wählt einen Termin, der euch passt. Ihr bekommt eine Bestätigung per Mail mit dem Link zum Gespräch.',b:'<div class="embed" style="margin-top:24px"><iframe data-eqc-src="'+CALF+'" title="Terminkalender: Coffee Call mit Franzi buchen"></iframe></div><p class="aside">Der Termin passt nicht? <a href="https://calendar.app.google/cFagH64kS7BJvduy5">Kalender in eigenem Fenster öffnen</a>, schreibt uns an '+MAILT+' oder ruft an unter '+TELT+'. Lieber mit Flo sprechen? <a href="coffee-call.html">Hier geht es zu Flos Coffee Call</a>.</p>'+PRIV})+
+          sec({h:'Wofür der Coffee Call gut ist',b:cards([{t:'Kennenlernen',p:'Ihr lernt Franzi und ihre Arbeitsweise kennen, bevor ihr mehr Zeit investiert.'},{t:'Eine Frage klären',p:'Passt ein Training zu eurem Thema? Das lässt sich in 15 Minuten sagen.'},{t:'Den nächsten Schritt wählen',p:'Danach entscheidet ihr, ob ein Discovery Call sinnvoll ist.'}])})+
+          v6band('Lieber gleich in die Tiefe?','Der Discovery Call dauert eine Stunde und gibt euch ein klares Bild.','Discovery Call buchen','discovery-call.html','Teamcheck machen','teamcheck.html')}};
+          WP('coffee-call',function(d){
+           var l=d.querySelector('a[href^="https://calendar.app.google/cFag"]');
+           if(!l){miss('coffee-call franzi link');return}
+           l.setAttribute('href','coffee-call-franzi.html');l.removeAttribute('target');l.removeAttribute('rel');
+          });
+          WP('franziska',function(d){
+           var b=d.querySelector('.hero .ctas a.btn[href^="https://calendar.app.google/cFag"]');
+           if(!b){miss('franziska hero coffee btn');return}
+           b.setAttribute('href','coffee-call-franzi.html');b.removeAttribute('target');b.removeAttribute('rel');
+          });
+          /* FRANZI_FEEDBACK8_END */
+          EOF_o_block_js
+          cat > /tmp/w/o_patch.py <<'EOF_o_patch_py'
+          import sys,re,glob
+          def sub(path,old,new,cnt=1):
+              s=open(path,encoding='utf8').read()
+              if s.count(old)!=cnt: sys.exit('Anzahl %s %r: %d'%(path,old[:70],s.count(old)))
+              open(path,'w',encoding='utf8').write(s.replace(old,new))
+          blk=open('/tmp/w/o_block.js',encoding='utf8').read()
+          sub('assets/pages.js','window.PAGES=P;\n})();','%swindow.PAGES=P;\n})();'%blk)
+          sub('assets/site.js','a[href^="coffee-call.html"]\'','a[href^="coffee-call.html"],a[href^="coffee-call-franzi.html"]\'')
+          sub('assets/site.js','(discovery-call|coffee-call|kontakt|teamcheck)\\.html','(discovery-call|coffee-call|coffee-call-franzi|kontakt|teamcheck)\\.html')
+          s=open('coffee-call.html',encoding='utf8').read()
+          for a,b,c in [('Coffee Call: 15 Minuten kennenlernen','Coffee Call mit Franzi: 15 Minuten kennenlernen',3),
+           ('Ein lockeres Kennenlernen in 15 Minuten mit EQ Collective, ohne Agenda.','Ein lockeres Kennenlernen in 15 Minuten mit Franzi von EQ Collective, ohne Agenda.',2),
+           ('https://www.eq-collective.de/coffee-call.html','https://www.eq-collective.de/coffee-call-franzi.html',2),
+           ('5156bf_770b0117c7b74f968cfea87033976e0d~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80','130bbf_876de8f455004e88b598ec71ceef8340~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80',1),
+           ('data-page="coffee-call"','data-page="coffee-call-franzi"',1)]:
+              if s.count(a)!=c: sys.exit('Anzahl coffee-call.html %r: %d'%(a,s.count(a)))
+              s=s.replace(a,b)
+          open('coffee-call-franzi.html','w',encoding='utf8').write(s)
+          sub('sitemap.xml','<url><loc>https://www.eq-collective.de/coffee-call.html</loc><lastmod>2026-11-14</lastmod><priority>0.6</priority></url>','<url><loc>https://www.eq-collective.de/coffee-call.html</loc><lastmod>2026-11-14</lastmod><priority>0.6</priority></url>\n<url><loc>https://www.eq-collective.de/coffee-call-franzi.html</loc><lastmod>2026-11-15</lastmod><priority>0.6</priority></url>')
+          sub('tests/static.test.cjs','/href="kontakt\\.html">Kontakt zu Franzi aufnehmen/','/href="coffee-call-franzi\\.html">15 Min\\. Coffee Call mit Franzi/')
+          sub('tests/browser.test.cjs','(discovery-call\\.html|coffee-call\\.html|','(discovery-call\\.html|coffee-call\\.html|coffee-call-franzi\\.html|')
+          n=0
+          for f in glob.glob('*.html'):
+              t=open(f,encoding='utf8').read();o=t
+              t=re.sub(r'\?v=2026\d+[a-z]*','?v=20261117t',t)
+              if t!=o: open(f,'w',encoding='utf8').write(t);n+=1
+          print('html',n)
+          EOF_o_patch_py
+          cat > /tmp/w/f_render.cjs <<'EOF_f_render_cjs'
+          const http=require('http'),fs=require('fs'),path=require('path');const {chromium}=require('playwright');
+          const root=process.cwd();const mode=process.argv[2];
+          const files=fs.readdirSync(root).filter(f=>f.endsWith('.html')&&/data-page=/.test(fs.readFileSync(f,'utf8'))&&!['404.html','intern.html','blog-beitrag.html'].includes(f));
+          const srv=http.createServer((q,r)=>{const u=q.url.split('?')[0];let f=path.join(root,u);if(!fs.existsSync(f)||fs.statSync(f).isDirectory()){r.statusCode=404;f=path.join(root,'404.html')}const ext=path.extname(f);r.setHeader('content-type',{'.js':'text/javascript','.css':'text/css','.html':'text/html'}[ext]||'application/octet-stream');r.end(fs.readFileSync(f))}).listen(0,async()=>{
+           const b=await chromium.launch();const p=await b.newPage();
+           await p.route(/^https?:\/\/(?!localhost)/,r=>r.abort());
+           const out={};
+           for(const f of files){await p.goto('http://localhost:'+srv.address().port+'/'+f);await p.waitForTimeout(600);out[f]=await p.evaluate(()=>document.querySelector('main').innerHTML)}
+           await b.close();srv.close();
+           if(mode==='before'){fs.writeFileSync('/tmp/before.json',JSON.stringify(out));console.log('before',files.length)}
+           else{const bef=JSON.parse(fs.readFileSync('/tmp/before.json','utf8'));let n=0;
+            for(const f of files){if(out[f]!==bef[f]){const s=fs.readFileSync(f,'utf8');const t=s.replace(/(<main[^>]*>)[\s\S]*?(<\/main>)/,(m,a,c)=>a+out[f]+c);fs.writeFileSync(f,t);n++;console.log('neu',f)}}
+            console.log('geaendert',n)}
+          });
+          EOF_f_render_cjs
+          cd /tmp/pw && npm init -y >/dev/null && npm i playwright >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1
+          cd $GITHUB_WORKSPACE
+          export NODE_PATH=/tmp/pw/node_modules && node /tmp/w/f_render.cjs before && python3 /tmp/w/o_patch.py && node /tmp/w/f_render.cjs after
+          git config user.name eq-website-bot
+          git config user.email eq-website-bot@users.noreply.github.com
+          git add -A
+          git commit -m 'Franzis Coffee Call: eigene Landing Page wie bei Flo'
+          git push
