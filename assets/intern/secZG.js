@@ -9,9 +9,9 @@ function nf(n){return Number(n||0).toLocaleString('de-DE')}
 function pageKey(r){var s=String(r.seite||'').replace(/^\//,'').replace(/\/$/,'')||'index.html';return s}
 // Reine Auswertung, ohne Zugriff auf die Seite. Wird auch im Test benutzt.
 function aggregate(rows,now){
-var out={total:{d7:0,d30:0,d90:0},vis30:0,pages:{},posts:{},src:{}},v30={};
+var out={total:{d7:0,d30:0,d90:0},vis30:0,pages:{},posts:{},postAll:{},src:{}},v30={};
 (rows||[]).forEach(function(r){
-if(!r||r.ereignis!=='aufruf')return;var t=zt(r);if(t==null)return;var age=now-t;if(age<0||age>90*DAY)return;
+if(!r||r.ereignis!=='aufruf')return;var t=zt(r);if(t==null)return;var age=now-t;if(age<0)return;if(r.ziel&&pageKey(r)==='blog-beitrag.html'){var zk=String(r.ziel);out.postAll[zk]=(out.postAll[zk]||0)+1}if(age>90*DAY)return;
 var tick=function(o,k){var e=o[k]||(o[k]={d7:0,d30:0,d90:0,v:{}});e.d90++;if(age<=30*DAY){e.d30++;if(r.besucher)e.v[r.besucher]=1}if(age<=7*DAY)e.d7++};
 out.total.d90++;if(age<=30*DAY){out.total.d30++;if(r.besucher)v30[r.besucher]=1}if(age<=7*DAY)out.total.d7++;
 var pk=pageKey(r);tick(out.pages,pk);
@@ -43,25 +43,25 @@ var tbl='<table class="rt"><thead><tr><th>Woche ab</th>'+keys.map(function(k){re
 return '<h3 class="in-h">Startwerte aus Wix</h3><div class="in-tiles">'+tiles+'</div><p class="in-note">Sitzungen je Woche aus der Wix-Auswertung vom '+esc(dm(d.von||''))+' bis '+esc(dm(d.bis||'').replace(/\.$/,''))+'. Wix hält nur 62 Tage, deshalb sichern wir sie hier. Seit dem Umzug auf GitHub Pages zählt Wix die öffentliche Seite nicht mehr.</p>'+tbl}
 // Blog-Beitraege: Startwerte aus Wix (kennzahlen, zugriffe-blog-start) plus die neu gezaehlten Aufrufe aus reise.
 function dmy(d){var p=String(d||'').split('-');return p.length===3?p[2]+'.'+p[1]+'.'+p[0]:esc(d||'')}
-function blogRows(item,a){var d=item&&item.daten;if(!d||!d.beitraege)return null;
-var known={},list=d.beitraege.map(function(b){known[b.slug]=1;var n=(a&&a.posts&&a.posts[b.slug])?a.posts[b.slug].d90:0;return{slug:b.slug,titel:b.titel||b.slug,datum:b.datum||'',start:b.ansichten||0,neu:n,ges:(b.ansichten||0)+n}});
-Object.keys((a&&a.posts)||{}).forEach(function(k){if(!known[k]){var n=a.posts[k].d90;list.push({slug:k,titel:k,datum:'',start:0,neu:n,ges:n})}});
+function blogRows(item,a,sum){var sb=(sum&&sum.daten&&sum.daten.beitraege)||{};var d=item&&item.daten;if(!d||!d.beitraege)return null;
+var known={},list=d.beitraege.map(function(b){known[b.slug]=1;var n=((a&&a.postAll&&a.postAll[b.slug])||0)+(sb[b.slug]||0);return{slug:b.slug,titel:b.titel||b.slug,datum:b.datum||'',start:b.ansichten||0,neu:n,ges:(b.ansichten||0)+n}});
+Object.keys(Object.assign({},sb,(a&&a.postAll)||{})).forEach(function(k){if(!known[k]){var n=((a&&a.postAll&&a.postAll[k])||0)+(sb[k]||0);list.push({slug:k,titel:k,datum:'',start:0,neu:n,ges:n})}});
 list.sort(function(x,y){return y.ges-x.ges||(x.titel<y.titel?-1:1)});return{list:list,stand:d.stand||''}}
-function blogHtml(item,a){var b=blogRows(item,a);if(!b)return '';
+function blogHtml(item,a,sum){var b=blogRows(item,a,sum);if(!b)return '';
 var sumS=0,sumN=0;b.list.forEach(function(x){sumS+=x.start;sumN+=x.neu});
 return '<h3 class="in-h">Blog-Beiträge einzeln</h3><div class="in-tiles"><div class="in-tile"><b>'+nf(sumS+sumN)+'</b><span>Ansichten gesamt</span><span class="in-sub">Startwerte '+nf(sumS)+' plus neu gezählt '+nf(sumN)+'</span></div></div>'+
 '<table class="rt"><thead><tr><th>Beitrag</th><th>Veröffentlicht</th><th>Start aus Wix</th><th>Neu gezählt</th><th>Gesamt</th></tr></thead><tbody>'+b.list.map(function(x){return '<tr><td data-l="Beitrag">'+esc(x.titel)+'</td><td data-l="Veröffentlicht">'+dmy(x.datum)+'</td><td data-l="Start aus Wix">'+nf(x.start)+'</td><td data-l="Neu gezählt">'+nf(x.neu)+'</td><td data-l="Gesamt"><b>'+nf(x.ges)+'</b></td></tr>'}).join('')+'</tbody></table>'+
-'<p class="in-note">Start aus Wix sind die Ansichten je Beitrag am '+dmy(b.stand)+', gezählt seit der Veröffentlichung. Neu gezählt sind Aufrufe auf der neuen Website mit Einwilligung in Statistik, höchstens die letzten 90 Tage. Die echte Gesamtzahl liegt etwas höher, weil nicht alle Besucher zustimmen.</p>'}
+'<p class="in-note">Start aus Wix sind die Ansichten je Beitrag am '+dmy(b.stand)+', gezählt seit der Veröffentlichung. Neu gezählt sind alle Aufrufe auf der neuen Website mit Einwilligung in Statistik. Einzelereignisse löschen wir nach sechs Monaten, vorher rechnet der monatliche Lauf sie in eine Summe je Beitrag um. Die echte Gesamtzahl liegt etwas höher, weil nicht alle Besucher zustimmen.</p>'}
 function mount(el){if(!el||!qx)return;el.innerHTML='<p class="muted">Einen Moment …</p>';
-var since=new Date(Date.now()-90*DAY).toISOString();
-Promise.all([
+var START='2026-11-15T00:00:00.000Z';
+qx('kennzahlen',{schluessel:{$eq:'zugriffe-summen'}},[],1).then(function(r){return r&&r[0]}).catch(function(){return null}).then(function(sm){var since=(sm&&sm.daten&&sm.daten.bis)||START;return Promise.all([
 qx('kennzahlen',{schluessel:{$eq:'zugriffe-wix-start'}},[],1).then(function(r){return r&&r[0]}).catch(function(){return null}),
 qx('reise',{ereignis:{$eq:'aufruf'},zeit:{$gte:since}},[{fieldName:'zeit',order:'DESC'}],1000).catch(function(e){return e&&e.message==='auth'?'gesperrt':null}),
 qx('kennzahlen',{schluessel:{$eq:'zugriffe-blog-start'}},[],1).then(function(r){return r&&r[0]}).catch(function(){return null})
-]).then(function(p){var st=p[0],r=p[1],bs=p[2],out='';
+]).then(function(p){p.push(sm);return p})}).then(function(p){var st=p[0],r=p[1],bs=p[2],sm=p[3],out='';
 if(!st&&r===null){el.innerHTML=NA;return}
 out+=startHtml(st);
-out+=blogHtml(bs,Array.isArray(r)?aggregate(r,Date.now()):null);
+out+=blogHtml(bs,Array.isArray(r)?aggregate(r,Date.now()):null,sm);
 out+='<h3 class="in-h">Zählung auf der neuen Website</h3>';
 if(r==='gesperrt')out+='<p class="muted">Die Einzelereignisse sind nur für Administratoren lesbar und werden hier deshalb noch nicht ausgewertet.</p>';
 else if(r===null)out+=NA;

@@ -115,3 +115,18 @@ test('blogHtml: Startwerte je Beitrag plus neu gezaehlte Aufrufe, sortiert nach 
   assert.equal(z.blogHtml(null, null), '');
   assert.match(z.blogHtml(item, null), /Alpha/);
 });
+
+test('blogHtml: Summen aus dem Monatslauf und Aufrufe aelter als 90 Tage zaehlen mit', () => {
+  const z = load();
+  const item = { daten: { stand: '2026-11-15', beitraege: [{ slug: 'a', titel: 'Alpha', datum: '2026-04-14', ansichten: 10 }] } };
+  const now = Date.now();
+  const old = new Date(now - 120 * 86400000).toISOString();
+  const rows = [{ ereignis: 'aufruf', seite: 'blog-beitrag.html', ziel: 'a', zeit: old, besucher: 'x' }];
+  const agg = z.aggregate(rows, now);
+  assert.equal(agg.postAll.a, 1);
+  assert.equal(agg.total.d90, 0);
+  const sum = { daten: { bis: '2027-03-01T00:00:00.000Z', beitraege: { a: 4, neu: 2 } } };
+  const h = z.blogHtml(item, agg, sum);
+  assert.match(h, /Startwerte 10 plus neu gezählt 7/);
+  assert.match(h, />neu</);
+});
