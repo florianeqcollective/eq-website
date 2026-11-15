@@ -225,7 +225,7 @@ f={t:new Date().toISOString(),q:window.EQ_SOURCE||qs('q'),c:qs('c'),s:qs('utm_so
 function send(ev,ziel){if(!ok())return;var f=first(),c=qs('c')||f.c;
 var d={besucher:vid(),zeit:new Date().toISOString(),ereignis:ev,seite:trim(location.pathname,80),ziel:trim(ziel,120),quelle:trim(qs('utm_source')||f.s||f.q,60),medium:trim(qs('utm_medium')||f.m,40),kampagne:trim(qs('utm_campaign')||f.k,60),code:trim(c,20),q:trim(window.EQ_SOURCE||qs('q')||f.q,60),referrer:trim(f.r,80)};
 window.EQ.insert('reise',d).catch(function(){})}
-function view(){if(sent.v)return;if(!ok())return;sent.v=1;send('aufruf','')}
+function view(){if(sent.v)return;if(!ok())return;sent.v=1;send('aufruf',/blog-beitrag\.html$/.test(location.pathname)?qs('slug'):'')}
 document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a||!ok())return;var h=a.getAttribute('href')||'';
 if(/^(discovery-call|coffee-call|kontakt|teamcheck)\.html/.test(h))send('klick_call',h.split('#')[0]);
 else if(/^https:\/\/calendar\.app\.google\//.test(h))send('klick_kalender_extern','calendar.app.google')

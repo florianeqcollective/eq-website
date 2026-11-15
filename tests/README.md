@@ -8,6 +8,8 @@ Alles läuft mit Node 22 und Playwright (Chromium). Keine weiteren Pakete.
 
 - `links.test.cjs` (Teil von `test:browser`) rendert jede Seite und prüft alle Links im fertigen DOM: Dateien, Anker auf der Zielseite, mailto und tel, keine alten Hosts, Newsletter-Archiv mit Testdaten. `links-live.test.cjs` (Teil von `test:live`) prüft die echten Wix-Daten (Archiv, Blog) und alle festen externen Adressen. Als tot zählen 404, 410 und verschwundene Domains. Ausnahmen für externe Links stehen in `known-issues.json` unter `externalLinks`.
 
+- `zugriffe.test.cjs` (Teil von `test:browser`) prüft den Zugriffszähler: Auswertung im Cockpit-Reiter Zugriffe aus den Einzelereignissen der Sammlung `reise`, und dass der Besucherweg bei Beiträgen die Adresse mitsendet, aber ohne Einwilligung nichts.
+
 Bekannte, bewusst offene Punkte stehen in `known-issues.json`, jeweils mit Begründung. Ein neuer Fehler ist rot, ein bekannter bleibt sichtbar, aber blockiert nicht.
 
 Neue Seite hinzufügen: HTML-Datei, Eintrag in `sitemap.xml` (oder `noindex`), Cache-Parameter `?v=` passend. Die Tests melden alles, was fehlt.

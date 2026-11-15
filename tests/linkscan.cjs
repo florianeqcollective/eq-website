@@ -41,6 +41,7 @@ async function openPage(browser, base, file, opts = {}) {
     external.push(u);
     return route.abort();
   });
+  if (opts.before) await opts.before(ctx, page);
   await stubWix(page); // zuletzt registriert, gewinnt vor dem Sammel-Block
   await page.goto(base + '/' + (file === 'index.html' ? '' : file) + (opts.query || ''), { waitUntil: 'load' });
   await page.waitForTimeout(opts.wait || 700);
