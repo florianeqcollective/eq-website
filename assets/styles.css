@@ -439,3 +439,5 @@ p,li,figcaption{text-wrap:pretty}
 /*FRANZI_FB2_START*/.mod.m2{border-top-color:var(--t)}.adapt{background:transparent;padding:28px 0 0;border-top:1px solid var(--g)}.tc .fmsg.ok,form.tc .fmsg.ok{font-size:clamp(1.4rem,2.6vw,2rem);line-height:1.35;font-weight:600;color:var(--td);padding:28px 26px;border-left:6px solid var(--k);background:#fff;margin:24px 0}/*FRANZI_FB2_END*/
 
 /*FRANZI_FB4_START*/.sec.dark .quad{background:#fff;padding:8px}.sec.dark .quad .q2,.sec.dark .quad .q2 *,.sec.dark .quad .q3,.sec.dark .quad .q3 *{color:#161616}.sec.dark .quad .q1,.sec.dark .quad .q1 *,.sec.dark .quad .q4,.sec.dark .quad .q4 *{color:#fff}/*FRANZI_FB4_END*/
+
+/*FRANZI_FB5_START*/@media(min-width:901px){.wk.w4{grid-template-columns:repeat(4,minmax(0,1fr))}}/*FRANZI_FB5_END*/

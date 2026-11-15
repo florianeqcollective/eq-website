@@ -1110,5 +1110,25 @@ WP('index',function(d){
  c.style.marginTop='24px';
 });
 /* FRANZI_FEEDBACK4_END */
+/* FRANZI_FEEDBACK5_START */
+WP('selbstorganisation',function(d){
+ TXQ(d,'Loop von The Dive','Loop Approach von TheDive');
+ var o=d.querySelector('ol.wk');if(o){o.removeAttribute('style');o.className='wk w4'}
+});
+ALLP(function(d){
+ TXQ(d,'Discovery Call, Future Skills Check oder ','Discovery Call oder ');
+ TXQ(d,'Future Skills Check oder ','');
+ TXQ(d,' oder Future Skills Check.','.');
+});
+WP('teamcheck',function(d){TXQ(d,'Jede Frage gehört zu einem von vier Bereichen.','Jede Frage gehört zu einem von vier Quadranten.')});
+WP('florian',function(d){TXQ(d,'die Shareholder-Value maximiert','der Shareholder Value maximiert');TXQ(d,'schonmal','schon mal')});
+WP('index',function(d){TXQ(d,'Er erscheint ungefähr einmal im Monat','Er erscheint ungefähr alle ein bis zwei Monate')});
+WP('franziska',function(d){
+ var i=d.querySelector('img[alt="Franziska Purr im Gespräch"]');
+ if(!i){miss('franziska why img');return}
+ i.setAttribute('src','https://static.wixstatic.com/media/5156bf_33bb13a685cc4293a834d53a2a2a9605~mv2.jpg/v1/fill/w_694,h_702,al_c,q_80/foto.jpg');
+ i.setAttribute('alt','Franziska Purr beim Workshop am Flipchart');
+});
+/* FRANZI_FEEDBACK5_END */
 window.PAGES=P;
 })();
