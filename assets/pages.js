@@ -1095,5 +1095,20 @@ WP('franziska',function(d){
  b.textContent='15 Min. Coffee Call mit Franzi';b.setAttribute('href','https://calendar.app.google/cFagH64kS7BJvduy5');b.setAttribute('target','_blank');b.setAttribute('rel','noopener');
 });
 /* FRANZI_FEEDBACK3_END */
+/* FRANZI_FEEDBACK4_START */
+WP('selbstorganisation',function(d){
+ TXQ(d,'In drei Modulen bekommt ihr Klarheit, Rhythmus und Eigenständigkeit.','Das Training orientiert sich am Loop von The Dive. In drei Modulen bekommt ihr Klarheit, Rhythmus und Eigenständigkeit.');
+});
+WP('index',function(d){
+ var s=d.querySelector('section.dark');
+ if(!s){miss('index dark');return}
+ TXQ(d,'Vier offene Fragen. Ihr bekommt','Vier offene Fragen, eine aus jedem der vier Quadranten. Ihr bekommt');
+ var c=s.querySelector('.ctas');
+ if(!c){miss('index dark ctas');return}
+ var w=document.createElement('div');w.innerHTML=QUAD();
+ c.parentNode.insertBefore(w.firstChild,c);
+ c.style.marginTop='24px';
+});
+/* FRANZI_FEEDBACK4_END */
 window.PAGES=P;
 })();
