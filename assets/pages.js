@@ -1060,5 +1060,40 @@ WP('new-leadership',function(d){
   [].forEach.call(d.querySelectorAll('.fact p'),function(p){if(sn(p.textContent)==='inhouse')p.textContent='inhouse bei euch'});
 });
 /* FRANZI_FEEDBACK2_END */
+/* FRANZI_FEEDBACK3_START */
+function MOD3(d){var w=document.createTreeWalker(d,NodeFilter.SHOW_TEXT,null),n;while(n=w.nextNode()){if(n.nodeValue.indexOf('Baustein')>-1)n.nodeValue=n.nodeValue.replace(/Bausteinen/g,'Modulen').replace(/Baustein/g,'Modul')}}
+function INH3(d){[].forEach.call(d.querySelectorAll('.fact p'),function(p){if(sn(p.textContent)==='inhouse')p.textContent='inhouse bei euch'})}
+WP('selbstorganisation',function(d){
+ MOD3(d);INH3(d);
+ var ol=d.querySelector('ol.steps');
+ if(!ol){miss('selbstorganisation ol.steps');return}
+ var w=document.createElement('div');
+ w.innerHTML='<h3 class="sub">Euer Weg</h3><ol class="wk" style="grid-template-columns:repeat(4,minmax(0,1fr))"><li class="m"><span class="tag">Tag 1 und 2</span><b>Modul 1 und 2</b><p>Präsenz · Purpose, Rollen, Meetingroutinen und Entscheidungen</p></li><li class="r"><span class="tag">Tag 3</span><b>Reflexion</b><p>Remote · 0,5 Tage</p></li><li class="m"><span class="tag">Nach Tag 3</span><b>Modul 3</b><p>Begleitung · Sync- und Governance-Meeting</p></li><li class="a"><span class="tag">Danach</span><b>Anwenden</b><p>im Arbeitsalltag</p></li></ol><p class="note">Den Zeitpunkt von Tag 3 sowie Anzahl und Abstand der begleiteten Meetings legen wir mit euch fest.</p>';
+ while(w.firstChild)ol.parentNode.insertBefore(w.firstChild,ol);
+ ol.parentNode.removeChild(ol);
+});
+WP('wertschaetzende-beziehungen',function(d){
+ MOD3(d);INH3(d);
+ TXQ(d,' (etwa 14 Stunden)','');
+});
+WP('discovery-call',function(d){
+ TXQ(d,'Ihr bekommt eine Bestätigung per Mail mit dem Link zum Gespräch.','Ihr bekommt eine Bestätigung per Mail mit dem Link zum Gespräch. Der Call findet meist remote statt. Seid ihr in der Region Rosenheim, kommen wir auch gerne bei euch vorbei.');
+ TXQ(d,'Wir schauen, wo der größte Hebel liegt, bei Haltung, Verhalten, Kultur oder Struktur.','Wir gehen mit euch durch die vier Räume und bekommen so einen ganzheitlichen Blick auf eure Situation. Daran sehen wir, wo der größte Hebel liegt.');
+ var se=SE(d,'So läuft der Call ab');
+ if(se){var wr=se.querySelector('.wrap');var x=document.createElement('div');x.className='two top';x.style.marginTop='48px';x.innerHTML='<div><h3>Die vier Räume im Blick</h3><p>Wir betrachten euer Unternehmen ganzheitlich, von der Haltung der Einzelnen bis zur Struktur. Dazu nutzen wir das Vier-Quadranten-Modell nach Ken Wilber. Jeder Raum zeigt eine andere Seite eurer Situation.</p></div><div>'+QUAD()+'</div>';wr.appendChild(x)}
+});
+WP('coffee-call',function(d){
+ var a=d.querySelector('p.aside');
+ if(!a){miss('coffee-call aside');return}
+ var p=document.createElement('p');p.className='aside';
+ p.innerHTML='Lieber mit Franzi sprechen? <a href="https://calendar.app.google/cFagH64kS7BJvduy5" target="_blank" rel="noopener">Hier geht es zu Franzis Kalender</a>.';
+ a.parentNode.insertBefore(p,a.nextSibling);
+});
+WP('franziska',function(d){
+ var b=d.querySelector('.hero .ctas a.btn[href="kontakt.html"]');
+ if(!b){miss('franziska hero btn');return}
+ b.textContent='15 Min. Coffee Call mit Franzi';b.setAttribute('href','https://calendar.app.google/cFagH64kS7BJvduy5');b.setAttribute('target','_blank');b.setAttribute('rel','noopener');
+});
+/* FRANZI_FEEDBACK3_END */
 window.PAGES=P;
 })();
