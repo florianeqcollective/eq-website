@@ -948,7 +948,7 @@ WP('future-skills',function(d){
 });
 P['future-skills'].title='Future Skills: Fähigkeiten, die Zusammenarbeit tragen';P['future-skills'].desc='Future Skills sind die Fähigkeiten, die Menschen und Teams für gute Zusammenarbeit brauchen. EQ Collective baut jedes Training daraus.';
 /* Impressum, Datenschutz */
-P['impressum'].title='Impressum';P['datenschutz'].title='Datenschutzerklärung';
+P['404']={title:'Seite nicht gefunden',desc:'',nav:'',html:function(){return '<section class="hero"><div class="hero-g"><div class="ht"><p class="kick">Fehler 404</p><h1>Diese Seite gibt es so nicht mehr</h1><p class="lead">Unsere Website ist umgezogen und neu aufgebaut. Hier geht es weiter:</p><div class="ctas"><a class="btn" href="index.html">Zur Startseite</a><a class="lnk" href="loesungen.html">Unsere Lösungen&nbsp;→</a></div><p class="note"><a class="lnk" href="kontakt.html">Oder sprecht uns direkt an&nbsp;→</a></p></div></div></section>'}};P['impressum'].title='Impressum';P['datenschutz'].title='Datenschutzerklärung';
 /* abwechselnde Hintergründe */
 ALLP(function(d){var n=0;[].forEach.call(d.children,function(s){if(s.tagName!=='SECTION')return;var c=s.classList;if(!c.contains('sec')||c.contains('dark'))return;c.remove('alt');if(n%2===1)c.add('alt');n++})});
 /*V6_P6_END*/

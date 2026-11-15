@@ -94,7 +94,7 @@ if(/[?&]pre=1/.test(location.search))return;
 var KEY='eqc_consent',VER=1,MAXAGE=365*24*3600*1000;
 var CATS=[
 {id:'notwendig',t:'Notwendig',d:'Damit die Seite funktioniert und sicher bleibt, zum Beispiel die Zuordnung zum richtigen Server und das Merken dieser Entscheidung. Immer aktiv.',lock:1},
-{id:'extern',t:'Externe Dienste',d:'Eingebettete Inhalte von Dritten, zum Beispiel eine Terminbuchung über Google Kalender. Aktuell binden wir nichts ein. Sobald wir es tun, wird es nur mit eurer Zustimmung geladen.'},
+{id:'extern',t:'Externe Dienste',d:'Eingebettete Inhalte von Dritten, zum Beispiel unser Terminkalender von Google. Er wird nur mit eurer Zustimmung geladen.'},
 {id:'statistik',t:'Statistik',d:'Wir messen, welche Seiten gelesen werden und über welchen Weg Besucher zu uns finden, damit wir die Seite verbessern können. Dafür speichern wir eine zufällige Kennung in eurem Browser und übertragen Seitenaufrufe und Klicks an unser System bei Wix. Namen oder E-Mail-Adressen sind nicht dabei.'}
 ];
 function rd(){try{var o=JSON.parse(localStorage.getItem(KEY)||'null');if(o&&o.v===VER&&o.c&&Date.now()-o.ts<MAXAGE)return o}catch(e){}return null}
