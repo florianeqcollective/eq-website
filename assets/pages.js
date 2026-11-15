@@ -1053,5 +1053,12 @@ WP('franziska',function(d){
   T(d,'h2','What','Den Spieß auch mal umdrehen');
 });
 /* FRANZI_FEEDBACK_END */
+/* FRANZI_FEEDBACK2_START */
+WP('new-leadership',function(d){
+  TXQ(d,'und remote Zwischen- und Abschlussreflexionen','und remoten Zwischen- und Abschlussreflexionen');
+  [].forEach.call(d.querySelectorAll('.hqv'),function(c){var p=c.querySelector(':scope > p');if(p)c.removeChild(p)});
+  [].forEach.call(d.querySelectorAll('.fact p'),function(p){if(sn(p.textContent)==='inhouse')p.textContent='inhouse bei euch'});
+});
+/* FRANZI_FEEDBACK2_END */
 window.PAGES=P;
 })();
