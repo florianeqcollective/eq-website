@@ -13,3 +13,7 @@ Alles läuft mit Node 22 und Playwright (Chromium). Keine weiteren Pakete.
 Bekannte, bewusst offene Punkte stehen in `known-issues.json`, jeweils mit Begründung. Ein neuer Fehler ist rot, ein bekannter bleibt sichtbar, aber blockiert nicht.
 
 Neue Seite hinzufügen: HTML-Datei, Eintrag in `sitemap.xml` (oder `noindex`), Cache-Parameter `?v=` passend. Die Tests melden alles, was fehlt.
+
+## Review vor jeder Veroeffentlichung
+
+npm run review (lokal, offline) und npm run review:live (nach dem Deploy) pruefen Begriffe, Vorrendern gegen Browser-Render, Look auf Desktop und Handy, Kontrast, Navigation, Bilder und Personenfotos (review-fotos.json). BLOCK beendet den Lauf mit Fehlercode, WARN steht im Bericht. Das Gesamtbild mit LinkedIn und Google prueft der Skill eq-website-review.

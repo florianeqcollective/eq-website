@@ -6,7 +6,9 @@
     "test:static": "node --test tests/static.test.cjs",
     "test:browser": "node --test tests/browser.test.cjs tests/links.test.cjs tests/zugriffe.test.cjs",
     "test:live": "node --test tests/live.test.cjs tests/links-live.test.cjs",
-    "test:links": "node --test tests/links.test.cjs"
+    "test:links": "node --test tests/links.test.cjs",
+    "review": "node tests/review.cjs",
+    "review:live": "node tests/review.cjs --live"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

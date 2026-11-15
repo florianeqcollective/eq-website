@@ -1,0 +1,32 @@
+# Review 2026-11-15 17:52 (lokal)
+
+Seiten: 3, Befunde (gruppiert), BLOCK: 0, WARN: 26
+
+## WARN
+
+- [Look] Kontrast 2.91:1 (noetig 4.5:1) bei "Discovery Call buchen" (datenschutz.html, franziska.html, index.html)
+- [Look] Sehr kleine Schrift: Lösungen 12px (datenschutz.html)
+- [Look] Sehr kleine Schrift: Lesen und prüfen 12px (datenschutz.html)
+- [Look] Sehr kleine Schrift: Kontakt 12px (datenschutz.html)
+- [Look] Kontrast 2.91:1 (noetig 4.5:1) bei "Über Franzi" (franziska.html)
+- [Look] Kontrast 2.62:1 (noetig 4.5:1) bei "Mehr über Florian →" (franziska.html)
+- [Look] Kontrast 2.62:1 (noetig 4.5:1) bei "Mehr über Michael →" (franziska.html)
+- [Look] Sehr kleine Schrift: Über Franzi 12px (franziska.html)
+- [Look] Sehr kleine Schrift: Mehr über Florian → 12px (franziska.html)
+- [Look] Sehr kleine Schrift: Mehr über Michael → 12px (franziska.html)
+- [Look] Foto nicht als "zeigt Franzi" freigegeben (review-fotos.json): 130bbf_94817906c5c943bd854ae62c72a4c724 (franziska.html)
+- [Look] Foto nicht als "zeigt Franzi" freigegeben (review-fotos.json): 130bbf_507fbf7947644eb38f9c5a129cab7bb7 (franziska.html)
+- [Look] Foto nicht als "zeigt Franzi" freigegeben (review-fotos.json): 130bbf_66811dbc780b4dbfa0278afb1dcb71d5 (franziska.html)
+- [Look] Foto nicht als "zeigt Franzi" freigegeben (review-fotos.json): 130bbf_c829c69634c449dd9eda0cca94575212 (franziska.html)
+- [Look] Bild ohne Alternativtext: https://static.wixstatic.com/media/5156bf_c8e7dd01b2ae41798b2314b439bb9a3c~mv2.j (index.html)
+- [Look] Bild ohne Alternativtext: https://static.wixstatic.com/media/5156bf_0765d56961394effa1bad901ac2d431c~mv2.j (index.html)
+- [Look] Bild ohne Alternativtext: https://static.wixstatic.com/media/5156bf_e6387601cbb74453b5b36ab8e6b365da~mv2.j (index.html)
+- [Look] Bild ohne Alternativtext: https://static.wixstatic.com/media/5156bf_f41b7ffcc5644ce1a190028e5736d4d5~mv2.j (index.html)
+- [Look] Kontrast 2.91:1 (noetig 4.5:1) bei "Individuell" (index.html)
+- [Look] Kontrast 2.91:1 (noetig 4.5:1) bei "Training für Führungskräfte ansehen →" (index.html)
+- [Look] Kontrast 2.91:1 (noetig 4.5:1) bei "Team" (index.html)
+- [Look] Kontrast 2.91:1 (noetig 4.5:1) bei "Trainings für Teams ansehen →" (index.html)
+- [Look] Kontrast 2.91:1 (noetig 4.5:1) bei "Organisation" (index.html)
+- [Look] Sehr kleine Schrift: Individuell 11px (index.html)
+- [Look] Sehr kleine Schrift: Training für Führungskräfte ansehen → 12px (index.html)
+- [Look] Sehr kleine Schrift: Team 11px (index.html)

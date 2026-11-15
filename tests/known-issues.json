@@ -25,5 +25,9 @@
     "newsletter.html",
     "ressourcen.html"
   ],
-  "_consent": "Diese Seiten holen Blog- und Newsletter-Daten von Wix (wixapis.com, anonymes Token). Entscheidungskarte offen."
+  "_consent": "Diese Seiten holen Blog- und Newsletter-Daten von Wix (wixapis.com, anonymes Token). Entscheidungskarte offen.",
+  "review": [
+    "blog-vorschau.html:vorgerendert"
+  ],
+  "_review": "blog-vorschau.html holt den Inhalt zur Laufzeit von Wix, der vorgerenderte main ist bewusst leer."
 }
