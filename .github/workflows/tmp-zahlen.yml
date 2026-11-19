@@ -1,0 +1,29 @@
+name: tmp-zahlen
+on:
+  push:
+    paths: ['.github/workflows/tmp-zahlen.yml']
+permissions:
+  contents: write
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: patch
+        run: |
+          echo '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' | base64 -d | gunzip > /tmp/p.py
+          python3 /tmp/p.py
+          node --check assets/intern/secV.js
+          node --check assets/intern.js
+          node --test tests/static.test.cjs
+      - name: commit
+        run: |
+          git config user.name eq-website-bot
+          git config user.email bot@eq-collective.de
+          git add assets intern.html
+          git commit -m "Vertriebskennzahlen: Schalter Insgesamt und letzte 30 Tage"
+          git pull --rebase origin main
+          git push origin HEAD:main
