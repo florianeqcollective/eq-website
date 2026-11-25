@@ -1,0 +1,73 @@
+name: tmp-r1
+on:
+  push:
+    paths:
+      - .github/workflows/tmp-r1.yml
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p /tmp/w /tmp/pw
+          cat > /tmp/w/r_block.js <<'EOF_r_block_js'
+          /* KIBUN_ARCHITECT_START */
+          var KIBLOGO='https://static.wixstatic.com/media/5156bf_246288205d324bfeae76b46aace6a592~mv2.png';
+          function KIBSEC(d,txt){
+           if([].some.call(d.querySelectorAll('h2'),function(h){return h.textContent==='Kibun Innovation Architect'}))return;
+           var cta=d.querySelector('section.ctaband');
+           if(!cta){miss('kibun architect ctaband');return}
+           var pv=cta.previousElementSibling;var alt=!(pv&&/alt/.test(pv.className));
+           var s=document.createElement('section');s.className='sec'+(alt?' alt':'');
+           s.innerHTML='<div class="wrap"><div class="two"><div><h2>Kibun Innovation Architect</h2>'+txt+'</div><div style="text-align:center"><img src="'+KIBLOGO+'/v1/fit/w_600,h_340,q_90/kibun-innovation-architect.png" alt="Kibun Innovation Architect, Logo" loading="lazy" style="width:100%;max-width:380px;height:auto"></div></div></div>';
+           cta.parentNode.insertBefore(s,cta);
+          }
+          WP('florian',function(d){
+           KIBSEC(d,'<p>Seit 2025 bin ich Kibun Innovation Architect. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
+          });
+          WP('franziska',function(d){
+           KIBSEC(d,'<p>Seit November 2026 bin ich Kibun Innovation Architect, so wie Flo schon seit 2025. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
+          });
+          /* KIBUN_ARCHITECT_END */
+          EOF_r_block_js
+          cat > /tmp/w/r_patch.py <<'EOF_r_patch_py'
+          import sys,re,glob
+          blk=open('/tmp/w/r_block.js',encoding='utf8').read()
+          p='assets/pages.js'
+          s=open(p,encoding='utf8').read()
+          old='window.PAGES=P;\n})();'
+          if s.count(old)!=1: sys.exit('Anzahl pages.js')
+          open(p,'w',encoding='utf8').write(s.replace(old,blk+old))
+          n=0
+          for f in glob.glob('*.html'):
+              t=open(f,encoding='utf8').read();o=t
+              t=re.sub(r'\?v=2026\d+[a-z]*','?v=20261125a',t)
+              if t!=o: open(f,'w',encoding='utf8').write(t);n+=1
+          print('html',n)
+          EOF_r_patch_py
+          cat > /tmp/w/f_render.cjs <<'EOF_f_render_cjs'
+          const http=require('http'),fs=require('fs'),path=require('path');const {chromium}=require('playwright');
+          const root=process.cwd();const mode=process.argv[2];
+          const files=fs.readdirSync(root).filter(f=>f.endsWith('.html')&&/data-page=/.test(fs.readFileSync(f,'utf8'))&&!['404.html','intern.html','blog-beitrag.html'].includes(f));
+          const srv=http.createServer((q,r)=>{const u=q.url.split('?')[0];let f=path.join(root,u);if(!fs.existsSync(f)||fs.statSync(f).isDirectory()){r.statusCode=404;f=path.join(root,'404.html')}const ext=path.extname(f);r.setHeader('content-type',{'.js':'text/javascript','.css':'text/css','.html':'text/html'}[ext]||'application/octet-stream');r.end(fs.readFileSync(f))}).listen(0,async()=>{
+           const b=await chromium.launch();const p=await b.newPage();
+           await p.route(/^https?:\/\/(?!localhost)/,r=>r.abort());
+           const out={};
+           for(const f of files){await p.goto('http://localhost:'+srv.address().port+'/'+f);await p.waitForTimeout(600);out[f]=await p.evaluate(()=>document.querySelector('main').innerHTML)}
+           await b.close();srv.close();
+           if(mode==='before'){fs.writeFileSync('/tmp/before.json',JSON.stringify(out));console.log('before',files.length)}
+           else{const bef=JSON.parse(fs.readFileSync('/tmp/before.json','utf8'));let n=0;
+            for(const f of files){if(out[f]!==bef[f]){const s=fs.readFileSync(f,'utf8');const t=s.replace(/(<main[^>]*>)[\s\S]*?(<\/main>)/,(m,a,c)=>a+out[f]+c);fs.writeFileSync(f,t);n++;console.log('neu',f)}}
+            console.log('geaendert',n)}
+          });
+          EOF_f_render_cjs
+          cd /tmp/pw && npm init -y >/dev/null && npm i playwright >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1
+          cd $GITHUB_WORKSPACE
+          export NODE_PATH=/tmp/pw/node_modules && node /tmp/w/f_render.cjs before && python3 /tmp/w/r_patch.py && node /tmp/w/f_render.cjs after
+          git config user.name eq-website-bot
+          git config user.email eq-website-bot@users.noreply.github.com
+          git add -A
+          git commit -m 'Kibun Innovation Architect auf den Seiten von Flo und Franzi'
+          git push
