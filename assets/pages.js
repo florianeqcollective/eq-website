@@ -1155,21 +1155,26 @@ WP('franziska',function(d){
 });
 /* FRANZI_FEEDBACK8_END */
 /* KIBUN_ARCHITECT_START */
-var KIBLOGO='https://static.wixstatic.com/media/5156bf_246288205d324bfeae76b46aace6a592~mv2.png';
+var KIBLOGO='https://static.wixstatic.com/media/130bbf_098065ca27c8420596d9d5ab63db6fda~mv2.png';
 function KIBSEC(d,txt){
  if([].some.call(d.querySelectorAll('h2'),function(h){return h.textContent==='Kibun Innovation Architect'}))return;
- var cta=d.querySelector('section.ctaband');
- if(!cta){miss('kibun architect ctaband');return}
- var pv=cta.previousElementSibling;var alt=!(pv&&/alt/.test(pv.className));
+ var ph=[].filter.call(d.querySelectorAll('h2'),function(h){return h.textContent==='Persönliches'})[0];
+ var tg=ph&&ph.closest('section');
+ if(!tg){miss('kibun architect Persönliches');return}
+ var pv=tg.previousElementSibling;var alt=!(pv&&/alt/.test(pv.className));
  var s=document.createElement('section');s.className='sec'+(alt?' alt':'');
- s.innerHTML='<div class="wrap"><div class="two"><div><h2>Kibun Innovation Architect</h2>'+txt+'</div><div style="text-align:center"><img src="'+KIBLOGO+'/v1/fit/w_600,h_340,q_90/kibun-innovation-architect.png" alt="Kibun Innovation Architect, Logo" loading="lazy" style="width:100%;max-width:380px;height:auto"></div></div></div>';
- cta.parentNode.insertBefore(s,cta);
+ s.innerHTML='<div class="wrap"><div class="two"><div><h2>Kibun Innovation Architect</h2>'+txt+'</div><div style="text-align:center"><img src="'+KIBLOGO+'/v1/fit/w_800,h_443,q_90/kibun-innovation-architect.png" alt="Kibun Innovation Architect, Logo" loading="lazy" style="width:100%;max-width:380px;height:auto"></div></div></div>';
+ tg.parentNode.insertBefore(s,tg);
+ var cur=s,a=alt;
+ while((cur=cur.nextElementSibling)&&cur.tagName==='SECTION'&&/(^|\s)sec(\s|$)/.test(cur.className)&&!/ctaband/.test(cur.className)){
+  a=!a;cur.className=cur.className.replace(/\s*\balt\b/,'');if(a)cur.className+=' alt';
+ }
 }
 WP('florian',function(d){
- KIBSEC(d,'<p>Seit 2025 bin ich Kibun Innovation Architect. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
+ KIBSEC(d,'<p>Seit Februar 2026 bin ich Kibun Innovation Architect. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
 });
 WP('franziska',function(d){
- KIBSEC(d,'<p>Seit November 2026 bin ich Kibun Innovation Architect, so wie Flo schon seit 2025. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
+ KIBSEC(d,'<p>Seit November 2026 bin ich Kibun Innovation Architect. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
 });
 /* KIBUN_ARCHITECT_END */
 window.PAGES=P;
