@@ -26,7 +26,7 @@ var ek=ex(d.konto||[]),es=ex(d.kontoSicher||[]);
 var rw=d.runway||{};
 var rwTxt=rw.monat?mlab(rw.monat):(rw.spaeter?'nach '+mlab(rw.spaeter):'–');
 var rwNeg=nv(rw.monateAb)!=null&&nv(rw.monateAb)<6?'in-fz-neg':'';
-var t4='<div class="in-fz-t" title="Erster Monat, in dem der Kontostand unter null fällt, wenn der gesamte gewichtete Auftragseingang abgearbeitet ist und danach nichts Neues dazukommt. Es laufen dann nur noch die Fixkosten und die Umsatzsteuer für die letzten Zahlungen. Rechnung im Forecast, Blatt Runway. Niedrigster Kontostand der nächsten 9 Monate: '+fe(eur(mn.wert))+' im '+fe(mlab(mn.monat))+'"><i class="in-fz-tt">Runway</i><b class="'+rwNeg+'">'+fe(rwTxt)+'</b><span>Bis hierhin reicht das Geld, wenn der gesamte Auftragseingang abgearbeitet ist und nichts Neues dazukommt'+(nv(rw.monateAb)!=null?' ('+fn(rw.monateAb)+' Monate ab heute)':'')+'</span>'+(nv(rw.kontoNachAE)!=null?'<span>Nach der letzten Zahlung ('+fe(mlab(rw.aeEnde))+'): '+eur(rw.kontoNachAE)+', danach nur noch Fixkosten von '+eur(rw.fixkosten)+' im Monat</span>':'')+'<span>Nur gestellte Rechnungen: '+(es!=null?'<strong class="in-fz-neg">'+fe(mlab(d.monate[es]))+'</strong> ('+eur(d.kontoSicher[es])+')':'kein Engpass')+'</span></div>';
+var t4='<div class="in-fz-t"><i class="in-fz-tt">Runway</i><b class="'+rwNeg+'">'+fe(rwTxt)+'</b><span>Bis hierhin reicht das Geld, wenn alle erwarteten Aufträge abgearbeitet sind und nichts Neues kommt</span></div>';
 var h='<div class="in-fz-tiles">'+t1+t2+t3+t4+'</div>';
 var M=d.monate||[],E=d.einnahmen||[],A=d.ausgaben||[],K=d.konto||[],KS=d.kontoSicher||[],n=M.length;
 if(!n)return h+'<p class="muted">Noch keine Monatswerte im Eintrag.</p>';
