@@ -1154,5 +1154,23 @@ WP('franziska',function(d){
  b.setAttribute('href','coffee-call-franzi.html');b.removeAttribute('target');b.removeAttribute('rel');
 });
 /* FRANZI_FEEDBACK8_END */
+/* KIBUN_ARCHITECT_START */
+var KIBLOGO='https://static.wixstatic.com/media/5156bf_246288205d324bfeae76b46aace6a592~mv2.png';
+function KIBSEC(d,txt){
+ if([].some.call(d.querySelectorAll('h2'),function(h){return h.textContent==='Kibun Innovation Architect'}))return;
+ var cta=d.querySelector('section.ctaband');
+ if(!cta){miss('kibun architect ctaband');return}
+ var pv=cta.previousElementSibling;var alt=!(pv&&/alt/.test(pv.className));
+ var s=document.createElement('section');s.className='sec'+(alt?' alt':'');
+ s.innerHTML='<div class="wrap"><div class="two"><div><h2>Kibun Innovation Architect</h2>'+txt+'</div><div style="text-align:center"><img src="'+KIBLOGO+'/v1/fit/w_600,h_340,q_90/kibun-innovation-architect.png" alt="Kibun Innovation Architect, Logo" loading="lazy" style="width:100%;max-width:380px;height:auto"></div></div></div>';
+ cta.parentNode.insertBefore(s,cta);
+}
+WP('florian',function(d){
+ KIBSEC(d,'<p>Seit 2025 bin ich Kibun Innovation Architect. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
+});
+WP('franziska',function(d){
+ KIBSEC(d,'<p>Seit November 2026 bin ich Kibun Innovation Architect, so wie Flo schon seit 2025. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
+});
+/* KIBUN_ARCHITECT_END */
 window.PAGES=P;
 })();
