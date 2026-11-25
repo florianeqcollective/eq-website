@@ -10,17 +10,17 @@ var dy=function(s){return s?String(s).slice(8,10)+'.'+String(s).slice(5,7)+'.'+S
 var fm=function(v,e){return nf(v,0)+(e?' €':'')};
 var amp=function(id,ug){var a=AMP[id];if(a&&a.gruen_ab!=null)return a;if(ug)return {rot_bis:ug*0.6,gruen_ab:ug};return null};
 var lvl=function(v,a){if(!a||v==null)return null;return v>=a.gruen_ab?CG:(v>=a.rot_bis?CY:CR)};
-function mSvg(r,a,lbl,euro,tips){var W=900,H=150,pl=8,pr=8,pt=22,pb=22,bw=(W-pl-pr)/12,vs=[],i,k,ks=[];
-for(i=0;i<12;i++){k=Y+'-'+(i<9?'0':'')+(i+1);ks.push(k);vs.push(r&&r[k]!=null?r[k]:null)}
+function mSvg(r,a,lbl,euro,tips){var W=900,H=150,pl=8,pr=8,pt=22,pb=22,N=10,bw=(W-pl-pr)/N,vs=[],i,k,ks=[],ml=[];
+for(i=0;i<N;i++){var dd=new Date(+cm.slice(0,4),+cm.slice(5)-1-(N-1-i),1),mi=dd.getMonth();k=dd.getFullYear()+'-'+(mi<9?'0':'')+(mi+1);ks.push(k);ml.push(MN[mi]+(i===0||mi===0?' '+String(dd.getFullYear()).slice(2):''));vs.push(r&&r[k]!=null?r[k]:null)}
 var mx=Math.max.apply(null,vs.filter(function(v){return v!=null}).concat([a?a.gruen_ab:0,1]))*1.18,Yp=function(v){return pt+(H-pt-pb)*(1-v/mx)};
 var o='<svg class="in-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(lbl)+'">';
 if(a){var y0=Yp(0),yr=Yp(a.rot_bis),yg=Yp(a.gruen_ab),yt=Yp(mx);
 o+='<rect x="'+pl+'" y="'+yr+'" width="'+(W-pl-pr)+'" height="'+(y0-yr)+'" fill="'+CR+'" opacity=".13"/><rect x="'+pl+'" y="'+yg+'" width="'+(W-pl-pr)+'" height="'+(yr-yg)+'" fill="'+CY+'" opacity=".16"/><rect x="'+pl+'" y="'+yt+'" width="'+(W-pl-pr)+'" height="'+(yg-yt)+'" fill="'+CG+'" opacity=".13"/>'}
 o+='<line x1="'+pl+'" y1="'+Yp(0)+'" x2="'+(W-pr)+'" y2="'+Yp(0)+'" stroke="#c9d6d8"/>';
-vs.forEach(function(v,i){var x=pl+bw*i+bw*0.2,w=bw*0.6,cx=pl+bw*i+bw/2,tp=(tips&&tips[ks[i]])||(v!=null?MN[i]+': '+fm(v,euro):MN[i]+': keine Daten');
+vs.forEach(function(v,i){var x=pl+bw*i+bw*0.2,w=bw*0.6,cx=pl+bw*i+bw/2,tp=(tips&&tips[ks[i]])||(v!=null?ml[i]+': '+fm(v,euro):ml[i]+': keine Daten');
 o+='<g><title>'+esc(tp)+'</title><rect x="'+(pl+bw*i)+'" y="0" width="'+bw+'" height="'+H+'" fill="transparent"/>';
 if(v!=null){var y=Yp(v);o+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+Math.max(0,Yp(0)-y)+'" fill="var(--t)" rx="3"/><text x="'+cx+'" y="'+(y-5)+'" text-anchor="middle" font-size="11" font-weight="600">'+nf(v,0)+'</text>'}
-o+='<text x="'+cx+'" y="'+(H-6)+'" text-anchor="middle" font-size="10.5" class="m">'+MN[i]+'</text></g>'});
+o+='<text x="'+cx+'" y="'+(H-6)+'" text-anchor="middle" font-size="10.5" class="m">'+ml[i]+'</text></g>'});
 return o+'</svg>'}
 var legend=function(a,euro){if(!a)return '';return '<div class="kp-lg"><i style="background:'+CG+'"></i>Grün ab '+fm(a.gruen_ab,euro)+' <i style="background:'+CY+'"></i>Gelb ab '+fm(a.rot_bis,euro)+' <i style="background:'+CR+'"></i>darunter Rot'+(a.vorschlag?' <span class="kp-vs">(Vorschlag)</span>':'')+'</div>'};
 var tile=function(big,label,v,a,sub){var c=lvl(v,a),p=a&&v!=null?Math.max(0,Math.min(100,Math.round(100*v/a.gruen_ab))):null;
@@ -46,7 +46,7 @@ if(ae){var a1=amp('ae',ae.untergrenze);alt+=row(tile(eu(ae.wert),'Gewichteter Au
 if(bk){var a2=amp('bank',bk.untergrenze);alt+=row(tile(eu(bk.wert),'Bankbestand',bk.wert,a2,bk.stand?'Stand '+dy(bk.stand):''),'Bankbestand je Monat in €',bkR,a2,true)}
 var neu='',umm=mo('umsatz'),ug2=d.ae_jahr&&d.ae_jahr.untergrenze!=null?d.ae_jahr.untergrenze:(ae?ae.untergrenze:null);
 if(um){var a3=amp('umsatz',null);neu+=row(tile(eu(um.wert),'Umsatz im Kalenderjahr',null,null,um.stand?'Stand '+dy(um.stand):''),'Umsatz je Monat in €',umm?umm.reihe:null,a3,true)}
-if(um&&d.ae_jahr){var cum={},s=0,i,k;if(umm&&umm.reihe){for(i=0;i<12;i++){k=Y+'-'+(i<9?'0':'')+(i+1);if(umm.reihe[k]!=null){s+=umm.reihe[k];cum[k]=Math.round(s)}}}
+if(um&&d.ae_jahr){var cum={},s=0,i,k;if(umm&&umm.reihe){var yy=null;Object.keys(umm.reihe).sort().forEach(function(k){if(k.slice(0,4)!==yy){yy=k.slice(0,4);s=0}if(umm.reihe[k]!=null){s+=umm.reihe[k];cum[k]=Math.round(s)}})}
 var a4=amp('umsatzkum',ug2),tot=(um.wert||0)+(d.ae_jahr.wert||0);neu+=row(tile(eu(tot),'Umsatz plus Auftragseingang bis Jahresende',tot,a4,''),'Umsatz im Jahr kumuliert in €',cum,a4,true,null,false)}
 if(g){var a5=amp('gespraeche',g.soll);neu+=row(tile(nf(g.wert,0),'Aktive Gespräche',g.wert,a5,'Soll '+nf(g.soll,0)+' gleichzeitig'),'Aktive Gespräche',(mo('gespraeche')||{}).reihe,a5,false)}
 if(sh&&sh.stunden){var a6=amp('stundensatz',null);neu+=row(tile(nf(sh.wert,2)+' € je Std.','Stundensatz',sh.wert,a6,nf(sh.stunden,0)+' Std. gemeinsam'),'Stundensatz',null,a6,true)}
