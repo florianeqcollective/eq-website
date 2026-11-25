@@ -1,0 +1,29 @@
+name: tmp-runway
+on:
+  push:
+    paths: ['.github/workflows/tmp-runway.yml']
+permissions:
+  contents: write
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: patch
+        run: |
+          echo 'H4sIACasBmsC/32R3VLCMBCF7/MUmd5sM9DWMvgzDNGhFz6ElovQBhMtaUgCOD69G7XiMMjlbs6e7HfWUk5BeC+DL7QJ0pnCy+bxKX/1QDw+9laa1I6pNE3favPCYRfW2R2w3EnRpowYeRhkUISNLbARpnH+/6Hc+eC0TaE2wMgC55O9cDRMOSSkimVtYkNxmLd6T5sOV+R1ok22/siC7qSvk3vUxs1doD5v+p0J6YJRzmk5RiTTqN7RBZxKqlNJhRL80efatPIdLcjqT1mxwUDQOV19ReKfZ2JJRzSSj7BazZZkiAkOZ7EPTgeZeka2Me/voHMVNh0QNaS3vRBy37VxcDjNw55PriY3ZVne7n4J1Q8hak8Zjz8pdLSdaGSUjc84Tq4FnmRY6CKOYsQ6ZEmhfwNGPgENUjonSwIAAA==' | base64 -d | gunzip > /tmp/p.py
+          echo 'H4sIACasBmsC/41TzW7TQBC+9ymGHLqx0roXhERqO0qllAMihwIXEIdNPLZXscfV7jopoUi8A6/Qx+CWN+FJmF3bSRvlwCGKPTv7zfczXksNehOnoW5oI78/Pv74eX229sVPDzbWm7CqSdpJVcrFsH8Lxu7R3Eu0qCeC5LIAMepbunowFn9//RZBDzfHPKb1HgOni+BVTE1Znp8flaM3E6HoMtteEuZiLEQLYV/HIkrVGpalNCYetC12AFbZEuPBTBseCx8czAUoghQr/ml4X5OtjZWUQkOuxU2FbPdUlty4QSLflqORlUX+36hlYVkDTJvMapkbVJRLykEucpR6gYpPQRnLeCmk0htA7pKBOTZouLZtVnVV2RBmBkrZZEiukXg2z6+5P1UIt+phxcz4zANx5XNlpN1yqWFG2e6P9tUS7dZ1fZFF2VCOFMIdLgviZ1AV3NYal9KwmJtSWgt3PssQ5gpTrXJvyzMTnFjaPS0LP/lt6xiOOcIMh9joYUXhBrUNgpFw8L7u0+WDdgH4ZJBE6igKO0ja0dGVSqJFfypGPn13xUP51WKE6GqRRLwtlNwoA4VCXXBqGp2RbJaBd1imJwL6r1ROxyFGw5M7OBEwZG704ojVt9bwBCiwsRi4bfTMPe092sqZO+ctmM72gK0yV/TkjyL04zpXGUDijFJ0tgYuBxfCEexIXOw3rV+hw/qsazpcy/pyl58X0VPuBLTkGm+qRf4QcL9RSI7CEM1BidU1U34RNn+aXZxeQ9rZ9hXNt6B1yF9KnFDHK23VfORYUPsu1spsVpwizCi/Z+xn1kZX/KUn4vrsH15KoFmhBAAA' | base64 -d | gunzip > /tmp/newt4.js
+          python3 /tmp/p.py
+          node --check assets/intern/secFZ.js
+          node --test tests/static.test.cjs
+      - name: commit
+        run: |
+          git config user.name eq-website-bot
+          git config user.email bot@eq-collective.de
+          git add assets intern.html
+          git commit -m "Finanzkennzahlen: Kachel Wann geht das Geld aus wird Runway"
+          git pull --rebase origin main
+          git push origin HEAD:main
