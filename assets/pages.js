@@ -1177,5 +1177,30 @@ WP('franziska',function(d){
  KIBSEC(d,'<p>Seit November 2026 bin ich Kibun Innovation Architect. Kibun ist die Plattform, mit der wir Stimmung und Wirkung in Teams regelmäßig messbar machen, wenn ihr das wollt.</p><p>Ich setze Kibun gemeinsam mit euch ein, um sichtbar zu machen, wo ihr steht und was sich verändert. Wie wir dabei vorgehen, steht auf der Seite zu <a href="kibun.html">Kibun</a>.</p>');
 });
 /* KIBUN_ARCHITECT_END */
+/* AQAL_PAGE_START */
+P['aqal-modell']={title:'Das AQAL-Modell einfach erklärt: die vier Quadranten',desc:'Das AQAL-Modell von Ken Wilber einfach erklärt: die vier Quadranten Ich, Es, Wir und Sie, mit einem Beispiel aus dem Teamalltag und Fragen für euer Team.',nav:'ressourcen.html',html:function(){
+var AQ=[{tag:'Ich · individuell, innen',t:'Haltung',p:'Was brauche ich, um gut zu arbeiten? Hier liegen Motivation, Selbstbild und persönliche Entwicklung.'},{tag:'Es · individuell, außen',t:'Verhalten',p:'Wer braucht diese Woche was von wem? Hier liegen sichtbare Arbeit, Zuarbeiten und Ergebnisse.'},{tag:'Wir · kollektiv, innen',t:'Kultur',p:'Wie gehen wir miteinander um? Hier liegen Vertrauen, Zusammenarbeit und unausgesprochene Absprachen.'},{tag:'Sie · kollektiv, außen',t:'Struktur',p:'Wer entscheidet was, und welche Regeln gelten? Hier liegen Rollen, Prozesse und Werkzeuge.'}];
+return hero({k:'AQAL-Modell',h:'Das AQAL-Modell einfach erklärt: die vier Quadranten',l:'Das AQAL-Modell von Ken Wilber hilft euch zu sortieren, worüber in eurem Team eigentlich gerade gesprochen wird. Hier steht, wie es aufgebaut ist und wie ihr es im Alltag nutzt.',c:a('Teamcheck machen','teamcheck.html')+lnk('Lieber direkt sprechen','discovery-call.html'),v:foto('2440',1200)})+
+sec({c:'alt',h:'Was das AQAL-Modell ist',i:'AQAL steht für „All Quadrants, All Levels“. Der Philosoph Ken Wilber hat es entwickelt, um zu beschreiben, aus welchen Blickwinkeln sich jedes Geschehen betrachten lässt.',b:'<div class="two top"><div><p>Zwei Fragen genügen. Schaut ihr von innen oder von außen? Und betrachtet ihr einen einzelnen Menschen oder eine Gemeinschaft? Daraus ergeben sich vier Felder, die Wilber Quadranten nennt.</p><p>Auf ein Team übertragen sind das Haltung, Verhalten, Kultur und Struktur. Wir bei EQ Collective nutzen das Modell als Denkwerkzeug, nicht als Wahrheit. Es ordnet, bevor ihr etwas verändert.</p></div><div>'+QUAD()+'</div></div>'})+
+sec({h:'Die vier Quadranten im Team',i:'Jeder Quadrant hat eine eigene Leitfrage. Die Fragen helfen euch, ein Thema dem richtigen Feld zuzuordnen.',b:cards(AQ,'g2')})+
+sec({c:'alt',h:'Ein bekanntes Beispiel',b:'<div class="two top"><div><p class="intro">Dienstag, zehn Uhr, Teamrunde. Angesetzt sind 60 Minuten, am Ende waren es 90, und entschieden ist nichts.</p><p>Im Status fragt jemand, wer eigentlich den Test vor dem Release macht. Später sagt eine Kollegin halblaut, sie habe von der letzten Entscheidung erst aus dem Protokoll erfahren. Dann streitet die Runde über ein neues Ticketsystem.</p><p>Das Meeting war nicht schlecht geleitet. Es hat vier Quadranten gleichzeitig geöffnet und für keinen einen Rahmen gehabt.</p></div><div>'+steps([['Zuständigkeit Release-Test','Das ist eine Frage der Struktur. Eine Rolle ist nicht geklärt.'],['Übergangen im Protokoll','Das ist ein Thema der Kultur. Was die Kollegin persönlich braucht, gehört zur Haltung.'],['Wechsel des Ticketsystems','Das ist wieder Struktur, und es verändert das Verhalten im Alltag.'],['Der Status der Woche','Das ist Verhalten, und genau dafür war die Runde gedacht.']]).replace('class="steps"','class="steps one"')+'</div></div>'})+
+sec({h:'Und das „L“ in AQAL?',b:'<div class="two top"><div><p class="intro">„All Levels“ beschreibt Entwicklungsstufen.</p></div><div><p>Die Stufen erklären, warum zwei Teams im selben Quadranten unterschiedlich weit sein können. Für den Einstieg lassen wir sie beiseite, denn schon die Trennung der vier Quadranten schafft viel Ordnung.</p></div></div>'})+
+sec({c:'alt',h:'Wie wir das Modell einsetzen',i:'Wir arbeiten in Schleifen: hinschauen, ausprobieren, prüfen, anpassen. Die Quadranten geben dafür die Landkarte.',b:cards([{i:'check',t:'Teamcheck',p:'Vier offene Fragen, eine aus jedem Quadranten. Ihr bekommt von uns eine persönliche Rückmeldung.',l:'teamcheck.html',m:'Zum Teamcheck'},{i:'call',t:'Discovery Call',p:'Wir gehen eine Stunde lang gemeinsam durch die vier Quadranten und schauen, wo euer größter Hebel liegt.',l:'discovery-call.html',m:'Termin wählen'},{i:'ki',t:'Unsere Lösungen',p:'Von Trainings bis zur Begleitung eurer Organisation, passend zu dem Quadranten, in dem es bei euch drückt.',l:'loesungen.html',m:'Lösungen ansehen'}])})+
+sec({h:'Weiterlesen',b:'<div class="two top"><div><p class="intro">Im Blog zeigt Flo, wie ihr mit den vier Quadranten Ordnung in eure Teammeetings bringt, mit Formaten, einem Parkplatz für Themen und einem Selbsttest.</p><p>'+lnk('Zum Blogbeitrag: Neunzig Minuten und nichts entschieden','https://app.eq-collective.de/post/die-vier-r%C3%A4ume-von-organisationen-im-aqal-modell')+'</p></div><div><h3>Quelle</h3><p class="note">Wilber, K. (2000): A Theory of Everything: An Integral Vision for Business, Politics, Science, and Spirituality. Boston: Shambhala.</p></div></div>'})+
+cta('Wo drückt es bei euch?','Im Discovery Call schauen wir gemeinsam durch die vier Quadranten.')}};
+/* AQAL_PAGE_END */
+/* AQAL_LINKS_START */
+WP('teamcheck',function(d){
+ var p=[].filter.call(d.querySelectorAll('p.note'),function(x){return x.textContent.indexOf('Vier-Quadranten-Modell von Ken Wilber')>-1})[0];
+ if(!p){miss('teamcheck aqal');return}
+ p.insertAdjacentHTML('afterend','<p style="margin-top:14px">'+lnk('Das AQAL-Modell einfach erklärt','aqal-modell.html')+'</p>');
+});
+WP('discovery-call',function(d){
+ var h=[].filter.call(d.querySelectorAll('h3'),function(x){return x.textContent==='Die vier Quadranten im Blick'})[0];
+ var p=h&&h.nextElementSibling;
+ if(!p||p.tagName!=='P'){miss('discovery aqal');return}
+ p.insertAdjacentHTML('beforeend',' <a href="aqal-modell.html">Mehr zum Modell</a>');
+});
+/* AQAL_LINKS_END */
 window.PAGES=P;
 })();

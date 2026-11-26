@@ -48,7 +48,7 @@ const normMain = (h) => h.replace(/\s+/g, ' ').replace(/ ?(style|data-q|class)="
 
   // ---------- Cache-Parameter
   const vs = new Set();
-  for (const f of L.htmlFiles()) for (const m of L.read(f).matchAll(/\?v=([0-9a-z]+)/g)) vs.add(m[1]);
+  for (const f of L.htmlFiles()) for (const m of L.read(f).matchAll(/assets\/(?:pages|site)\.js\?v=([0-9a-z]+)|assets\/styles\.css\?v=([0-9a-z]+)/g)) vs.add(m[1] || m[2]);
   if (vs.size !== 1) add('BLOCK', 'Technik', '*', 'Cache-Parameter nicht einheitlich: ' + [...vs].join(', '));
 
   for (const f of pages) {
