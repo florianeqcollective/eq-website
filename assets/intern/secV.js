@@ -32,8 +32,7 @@ if(ao!=null)H.push({n:'Angebot nach Call',z:ao,e:'Erstellte Angebote seit Start:
 if(at!=null)H.push({n:'Auftrag nach Angebot',z:at,e:'Aufträge seit Start: '+num(at)+'. Gemessen wird die Quote von Angebot bis Auftrag, bei Absage mit Grund.'});
 var gr=gv(gw,'gruss'),ga=gv(gw,'gruss_antwort'),gl=gv(gw,'gruss_anlass'),oe=gv(gw,'opener_gesendet'),oa=gv(gw,'opener_antwort');
 var G=[];
-if(gr&&ga!=null)G.push({n:'Antwort auf Gruß',z:ga,q:'<b>'+pz(ga/gr)+'</b>'+(sq.gruss_antwort!=null?' Soll '+pz(sq.gruss_antwort):''),c:cmp(ga/gr,sq.gruss_antwort),e:num(ga)+' von '+num(gr)+' Grüßen beantwortet. Dank, Emoji oder Like zählen als Kontakt, nicht als Lead, darum steht darunter die Zahl der Antworten mit Anlass.'});
-G.push({n:'Antwort mit Gesprächsanlass',z:gl,q:gl!=null&&ga?'<b>'+pz(gl/ga)+'</b> der Antworten':'wird gezählt',e:'Antworten, die einen Gesprächsanlass geben. Dank, Emoji und Like zählen nicht. An dieser Zahl wird die Version des Grußes gemessen.'});
+if(gr&&ga!=null)G.push({n:'Antwort auf Gruß',z:ga,q:'<b>'+pz(ga/gr)+'</b>'+(sq.gruss_antwort!=null?' Soll '+pz(sq.gruss_antwort):''),c:cmp(ga/gr,sq.gruss_antwort),e:num(ga)+' von '+num(gr)+' Grüßen beantwortet. Dank, Emoji oder Like zählen als Kontakt, nicht als Lead. Der Lead entsteht erst mit der Antwort auf den Opener.'});
 if(oe!=null)G.push({n:'Antwort nach Opener',z:oa,q:'<b>'+num(oa)+' von '+num(oe)+'</b>',e:num(oe)+' Opener nach einem Gruß gesendet, '+num(oa)+' Antworten darauf.'});
 var R=[];
 var rl=gv(rw,'reaktion_lead'),kaw=gv(rw,'kommentar_antwort'),rlT=gvT(rw,'reaktion_lead');
